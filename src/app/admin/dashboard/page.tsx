@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+import { getSession } from "@/lib/auth";
 import Link from "next/link";
 import sql from "@/lib/db";
 import { Users, BookOpen, Activity, TrendingUp, ArrowUpRight, Zap, Target } from "lucide-react";
@@ -26,6 +28,11 @@ async function getAdminData() {
 }
 
 export default async function AdminDashboard() {
+    const session = await getSession();
+    if (!session || session.user.role !== 'admin') {
+        redirect("/dashboard");
+    }
+
     const { stats, recentActivity } = await getAdminData();
 
     const statCards = [
