@@ -24,7 +24,7 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-20 pb-24 px-4 sm:px-6 lg:px-8 transition-colors duration-500">
             <div className="mx-auto max-w-4xl">
-                <div className="bg-white dark:bg-slate-900 p-12 sm:p-24 rounded-[5rem] shadow-[0_50px_100px_rgba(0,0,0,0.06)] dark:shadow-none border border-slate-100 dark:border-slate-800 text-center relative overflow-hidden">
+                <div className="bg-white dark:bg-slate-900 p-10 sm:p-16 rounded-[3rem] shadow-[0_50px_100px_rgba(0,0,0,0.06)] dark:shadow-none border border-slate-100 dark:border-slate-800 text-center relative overflow-hidden">
                     {/* Background Accents */}
                     <div className={`absolute top-0 left-0 w-full h-4 ${isPassed ? 'bg-emerald-500' : 'bg-rose-500'}`}></div>
 
@@ -48,11 +48,11 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-16 max-w-2xl mx-auto">
-                            <div className="bg-slate-50 dark:bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 transition-all hover:scale-105">
+                            <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 transition-all hover:scale-105">
                                 <span className="block text-4xl font-black text-slate-900 dark:text-white tabular-nums mb-2">{result.score}</span>
                                 <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Validated Assets</span>
                             </div>
-                            <div className="bg-slate-50 dark:bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 transition-all hover:scale-105">
+                            <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 transition-all hover:scale-105">
                                 <span className="block text-4xl font-black text-slate-900 dark:text-white tabular-nums mb-2">{result.total_questions - result.score}</span>
                                 <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Resource Gaps</span>
                             </div>
@@ -67,13 +67,13 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
                             <Link
                                 href="/dashboard"
-                                className="w-full sm:w-auto flex items-center justify-center gap-3 px-12 py-6 bg-indigo-600 text-white rounded-[2.5rem] font-black text-base shadow-2xl shadow-indigo-100 dark:shadow-none hover:bg-indigo-500 transition-all hover:-translate-y-2 active:scale-95"
+                                className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-3.5 bg-indigo-600 text-white rounded-2xl font-black text-base shadow-2xl shadow-indigo-100 dark:shadow-none hover:bg-indigo-500 transition-all hover:-translate-y-1 active:scale-95"
                             >
                                 <LayoutDashboard className="h-5 w-5" /> Return to Command
                             </Link>
                             <Link
                                 href={`/quiz/${result.quiz_id}`}
-                                className="w-full sm:w-auto flex items-center justify-center gap-3 px-12 py-6 bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-4 border-slate-900 dark:border-white rounded-[2.5rem] font-black text-base hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-950 transition-all active:scale-95"
+                                className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-3.5 bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-4 border-slate-900 dark:border-white rounded-2xl font-black text-base hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-950 transition-all active:scale-95"
                             >
                                 <RotateCcw className="h-5 w-5" /> Retry Simulation
                             </Link>

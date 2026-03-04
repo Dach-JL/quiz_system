@@ -109,8 +109,8 @@ export default function QuizPage() {
                 {/* Header Card */}
                 <div className="mb-12 flex flex-col sm:flex-row items-center justify-between bg-white dark:bg-slate-900 p-10 rounded-[3rem] shadow-2xl border border-slate-100 dark:border-slate-800 gap-8">
                     <div className="flex items-center gap-6">
-                        <div className="p-5 bg-indigo-600 rounded-[1.5rem] shadow-xl shadow-indigo-100 dark:shadow-none">
-                            <BrainCircuit className="h-8 w-8 text-white" />
+                        <div className="p-4 bg-indigo-600 rounded-xl shadow-xl shadow-indigo-100 dark:shadow-none">
+                            <BrainCircuit className="h-7 w-7 text-white" />
                         </div>
                         <div>
                             <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-none mb-2">{quiz?.title}</h1>
@@ -138,7 +138,7 @@ export default function QuizPage() {
                 </div>
 
                 {/* Question Terminal */}
-                <div className="bg-white dark:bg-slate-900 p-10 sm:p-20 rounded-[4rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] dark:shadow-none border border-slate-100 dark:border-slate-800 relative">
+                <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] dark:shadow-none border border-slate-100 dark:border-slate-800 relative">
                     <div className="absolute top-0 right-0 p-8">
                         <span className="text-[5rem] font-black text-slate-100 dark:text-slate-800/30 select-none leading-none -mt-4 -mr-4">
                             {currentQuestionIndex + 1}
@@ -155,15 +155,15 @@ export default function QuizPage() {
                                 <button
                                     key={index}
                                     onClick={() => handleAnswerSelect(option)}
-                                    className={`w-full group flex items-center justify-between p-8 rounded-[2rem] border-[3px] transition-all duration-300 ${answers[currentQuestion.id] === option
+                                    className={`w-full group flex items-center justify-between p-5 rounded-xl border-[3px] transition-all duration-300 ${answers[currentQuestion.id] === option
                                         ? "border-indigo-600 bg-indigo-50/50 dark:bg-indigo-500/10 shadow-xl shadow-indigo-500/10"
                                         : "border-slate-100 dark:border-slate-800/50 bg-white dark:bg-slate-800/50 hover:border-indigo-200 dark:hover:border-indigo-500/30 hover:-translate-y-1"
                                         }`}
                                 >
                                     <div className="flex items-center gap-6">
                                         <div className={`h-8 w-8 rounded-lg border-2 flex items-center justify-center text-[10px] font-black transition-colors ${answers[currentQuestion.id] === option
-                                                ? "bg-indigo-600 border-indigo-600 text-white"
-                                                : "border-slate-200 dark:border-slate-700 text-slate-400 dark:text-slate-600 group-hover:border-indigo-400"
+                                            ? "bg-indigo-600 border-indigo-600 text-white"
+                                            : "border-slate-200 dark:border-slate-700 text-slate-400 dark:text-slate-600 group-hover:border-indigo-400"
                                             }`}>
                                             {String.fromCharCode(65 + index)}
                                         </div>
@@ -185,7 +185,7 @@ export default function QuizPage() {
                             <button
                                 disabled={currentQuestionIndex === 0}
                                 onClick={() => setCurrentQuestionIndex(currentQuestionIndex - 1)}
-                                className="flex items-center gap-2 px-10 py-5 text-sm font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 disabled:opacity-0 transition-all active:scale-90"
+                                className="flex items-center gap-2 px-6 py-2.5 text-sm font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 disabled:opacity-0 transition-all active:scale-90"
                             >
                                 <ChevronLeft className="h-4 w-4" /> Previous Module
                             </button>
@@ -194,7 +194,7 @@ export default function QuizPage() {
                                 <button
                                     onClick={handleSubmit}
                                     disabled={isSubmitting}
-                                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-16 py-6 bg-slate-900 dark:bg-indigo-600 text-white rounded-[2rem] font-black text-base shadow-[0_20px_50px_rgba(0,0,0,0.2)] dark:shadow-none hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-2 active:scale-95 disabled:bg-slate-400 transition-all"
+                                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-10 py-4 bg-slate-900 dark:bg-indigo-600 text-white rounded-2xl font-black text-base shadow-[0_20px_50px_rgba(0,0,0,0.2)] dark:shadow-none hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-1 active:scale-95 disabled:bg-slate-400 transition-all"
                                 >
                                     {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
                                     {isSubmitting ? "Finalizing..." : "Submit Decision"}
@@ -202,7 +202,7 @@ export default function QuizPage() {
                             ) : (
                                 <button
                                     onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)}
-                                    className="w-full sm:w-auto px-16 py-6 bg-indigo-600 text-white rounded-[2rem] font-black text-base shadow-[0_20px_40px_rgba(79,70,229,0.3)] dark:shadow-none hover:bg-indigo-500 hover:-translate-y-2 active:scale-95 transition-all"
+                                    className="w-full sm:w-auto px-10 py-4 bg-indigo-600 text-white rounded-2xl font-black text-base shadow-[0_20px_40px_rgba(79,70,229,0.3)] dark:shadow-none hover:bg-indigo-500 hover:-translate-y-1 active:scale-95 transition-all"
                                 >
                                     Review Next
                                 </button>

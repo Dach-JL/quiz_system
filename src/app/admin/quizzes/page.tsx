@@ -47,20 +47,20 @@ export default function QuizManagement() {
                             <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.35em] mt-4 italic">Registry of available knowledge modules</p>
                         </div>
                     </div>
-                    <button className="w-full sm:w-auto flex items-center justify-center gap-3 bg-indigo-600 text-white px-10 py-6 rounded-[2.5rem] font-black text-sm shadow-2xl shadow-indigo-100 dark:shadow-none hover:bg-indigo-500 transition-all hover:-translate-y-2 active:scale-95">
+                    <button className="w-full sm:w-auto flex items-center justify-center gap-3 bg-indigo-600 text-white px-7 py-3.5 rounded-2xl font-black text-sm shadow-2xl shadow-indigo-100 dark:shadow-none hover:bg-indigo-500 transition-all hover:-translate-y-1 active:scale-95">
                         <Plus className="h-5 w-5" /> New knowledge Module
                     </button>
                 </div>
 
-                <div className="bg-white dark:bg-slate-900 rounded-[3rem] shadow-3xl border border-slate-100 dark:border-slate-800 overflow-hidden">
+                <div className="bg-white dark:bg-slate-900 rounded-[2rem] shadow-3xl border border-slate-100 dark:border-slate-800 overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="min-w-full divide-y divide-slate-100 dark:divide-slate-800">
                             <thead className="bg-slate-50/50 dark:bg-slate-800/50">
                                 <tr>
-                                    <th className="px-10 py-8 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Deployment</th>
-                                    <th className="px-10 py-8 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Category</th>
-                                    <th className="px-10 py-8 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Modules</th>
-                                    <th className="px-10 py-8 text-right text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Link Actions</th>
+                                    <th className="px-8 py-6 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Deployment</th>
+                                    <th className="px-8 py-6 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Category</th>
+                                    <th className="px-8 py-6 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Modules</th>
+                                    <th className="px-8 py-6 text-right text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Link Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
@@ -73,35 +73,35 @@ export default function QuizManagement() {
                                     </tr>
                                 ) : quizzes.map((quiz) => (
                                     <tr key={quiz.id} className="group hover:bg-indigo-50/30 dark:hover:bg-indigo-500/5 transition-all duration-300">
-                                        <td className="px-10 py-10 whitespace-nowrap">
+                                        <td className="px-8 py-6 whitespace-nowrap">
                                             <div className="flex items-center gap-6">
-                                                <div className="h-14 w-14 rounded-2xl bg-slate-900 dark:bg-slate-800 flex items-center justify-center text-sm font-black text-white group-hover:bg-indigo-600 transition-colors">
-                                                    <LayoutGrid className="h-6 w-6" />
+                                                <div className="h-12 w-12 rounded-xl bg-slate-900 dark:bg-slate-800 flex items-center justify-center text-sm font-black text-white group-hover:bg-indigo-600 transition-colors">
+                                                    <LayoutGrid className="h-5 w-5" />
                                                 </div>
                                                 <div>
-                                                    <div className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">{quiz.title}</div>
+                                                    <div className="text-base font-black text-slate-900 dark:text-white uppercase tracking-tight">{quiz.title}</div>
                                                     <div className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mt-1 italic">{quiz.difficulty}</div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-10 py-10 whitespace-nowrap">
-                                            <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">{quiz.category}</span>
+                                        <td className="px-8 py-6 whitespace-nowrap">
+                                            <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">{quiz.category}</span>
                                         </td>
-                                        <td className="px-10 py-10 whitespace-nowrap">
+                                        <td className="px-8 py-6 whitespace-nowrap">
                                             <div className="flex items-center gap-2 text-slate-900 dark:text-white">
                                                 <Layers className="h-4 w-4 text-slate-300 dark:text-slate-600" />
-                                                <div className="text-base font-black tabular-nums">{quiz.question_count}</div>
+                                                <div className="text-sm font-black tabular-nums">{quiz.question_count}</div>
                                             </div>
                                         </td>
-                                        <td className="px-10 py-10 whitespace-nowrap text-right space-x-6">
+                                        <td className="px-8 py-6 whitespace-nowrap text-right space-x-6">
                                             <button className="text-slate-400 dark:text-slate-600 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-                                                <Edit3 className="h-6 w-6" />
+                                                <Edit3 className="h-5 w-5" />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(quiz.id)}
                                                 className="text-slate-400 dark:text-slate-600 hover:text-rose-600 dark:hover:text-rose-500 transition-colors"
                                             >
-                                                <Trash2 className="h-6 w-6" />
+                                                <Trash2 className="h-5 w-5" />
                                             </button>
                                         </td>
                                     </tr>

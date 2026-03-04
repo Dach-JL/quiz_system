@@ -34,7 +34,7 @@ export default function Home() {
             <div className="mt-20 flex flex-col sm:flex-row items-center justify-center gap-8">
               <Link
                 href="/register"
-                className="w-full sm:w-auto rounded-[2.5rem] bg-indigo-600 px-12 py-6 text-base font-black text-white shadow-[0_20px_50px_rgba(79,70,229,0.3)] dark:shadow-none hover:bg-indigo-500 hover:scale-105 transition-all active:scale-95"
+                className="w-full sm:w-auto rounded-2xl bg-indigo-600 px-8 py-3.5 text-base font-black text-white shadow-[0_20px_50px_rgba(79,70,229,0.3)] dark:shadow-none hover:bg-indigo-500 hover:scale-105 transition-all active:scale-95"
               >
                 Start Evaluation
               </Link>
@@ -56,8 +56,8 @@ export default function Home() {
               { icon: <BrainCircuit className="h-7 w-7" />, title: "Adaptive Logic", desc: "Questions that evolve. Our system learns your triggers and challenges your weak points." },
               { icon: <Sparkles className="h-7 w-7" />, title: "Premium Design", desc: "A sleek, distraction-free environment optimized for deep work and peak concentration." }
             ].map((feature, i) => (
-              <div key={i} className="group p-10 rounded-[3rem] bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 hover:bg-white dark:hover:bg-slate-800 transition-all hover:shadow-2xl hover:-translate-y-2">
-                <div className="mb-8 inline-flex p-5 bg-indigo-600 rounded-2xl text-white shadow-xl shadow-indigo-100 dark:shadow-none group-hover:scale-110 transition-transform">
+              <div key={i} className="group p-8 rounded-[2rem] bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 hover:bg-white dark:hover:bg-slate-800 transition-all hover:shadow-2xl hover:-translate-y-2">
+                <div className="mb-6 inline-flex p-4 bg-indigo-600 rounded-xl text-white shadow-xl shadow-indigo-100 dark:shadow-none group-hover:scale-110 transition-transform">
                   {feature.icon}
                 </div>
                 <h3 className="text-xl font-black text-slate-900 dark:text-white mb-3 tracking-tight leading-none">{feature.title}</h3>

@@ -46,17 +46,17 @@ export default async function AdminDashboard() {
                         </div>
                         <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter leading-none">Admin Dashboard</h1>
                     </div>
-                    <Link href="/admin/quizzes" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-indigo-600 text-white px-8 py-5 rounded-[2rem] font-black text-sm shadow-2xl shadow-indigo-100 dark:shadow-none hover:bg-indigo-500 hover:-translate-y-1 transition-all active:scale-95 group">
-                        Manage Knowledge Terminal <ArrowUpRight className="h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                    <Link href="/admin/quizzes" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-indigo-600 text-white px-6 py-3.5 rounded-2xl font-black text-sm shadow-2xl shadow-indigo-100 dark:shadow-none hover:bg-indigo-500 hover:-translate-y-1 transition-all active:scale-95 group">
+                        Manage Knowledge Terminal <ArrowUpRight className="h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                     </Link>
                 </div>
 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 mb-20">
                     {statCards.map((item, i) => (
-                        <div key={i} className="bg-white dark:bg-slate-900 p-10 rounded-[3rem] shadow-2xl border border-slate-100 dark:border-slate-800 transition-all hover:shadow-indigo-500/10 hover:-translate-y-2">
-                            <div className="flex items-center justify-between mb-10">
-                                <div className={`p-5 rounded-[1.5rem] ${item.color}`}>
+                        <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-[2rem] shadow-2xl border border-slate-100 dark:border-slate-800 transition-all hover:shadow-indigo-500/10 hover:-translate-y-2">
+                            <div className="flex items-center justify-between mb-8">
+                                <div className={`p-4 rounded-xl ${item.color}`}>
                                     {item.icon}
                                 </div>
                             </div>

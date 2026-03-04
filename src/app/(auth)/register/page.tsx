@@ -41,14 +41,14 @@ export default function RegisterPage() {
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col justify-center items-center p-6 transition-colors duration-500">
             <div className="w-full max-w-lg">
                 <div className="text-center mb-16">
-                    <div className="inline-flex p-5 bg-indigo-600 rounded-[2rem] text-white shadow-2xl mb-10">
-                        <BrainCircuit className="h-10 w-10" />
+                    <div className="inline-flex p-4 bg-indigo-600 rounded-2xl text-white shadow-2xl mb-10">
+                        <BrainCircuit className="h-8 w-8" />
                     </div>
                     <h1 className="text-5xl font-black text-slate-900 dark:text-white tracking-tighter leading-none mb-4">Register <br />Identity.</h1>
                     <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest italic leading-none underline decoration-indigo-500/20 underline-offset-8">Create your global knowledge node</p>
                 </div>
 
-                <div className="bg-white dark:bg-slate-900 p-10 sm:p-16 rounded-[4rem] shadow-[0_40px_100px_rgba(0,0,0,0.06)] dark:shadow-none border border-slate-100 dark:border-slate-800">
+                <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] shadow-[0_40px_100px_rgba(0,0,0,0.06)] dark:shadow-none border border-slate-100 dark:border-slate-800">
                     <form onSubmit={handleSubmit} className="space-y-8">
                         {error && (
                             <div className="p-5 bg-rose-50 dark:bg-rose-500/10 border-2 border-rose-100 dark:border-rose-500/20 rounded-2xl text-rose-600 dark:text-rose-400 text-sm font-black italic text-center">
@@ -104,7 +104,7 @@ export default function RegisterPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full flex items-center justify-center gap-3 bg-indigo-600 text-white py-6 rounded-3xl font-black text-sm shadow-2xl shadow-indigo-100 dark:shadow-none hover:bg-indigo-500 hover:-translate-y-1 active:scale-95 disabled:bg-slate-400 transition-all"
+                            className="w-full flex items-center justify-center gap-3 bg-indigo-600 text-white py-3.5 rounded-2xl font-black text-sm shadow-2xl shadow-indigo-100 dark:shadow-none hover:bg-indigo-500 hover:-translate-y-1 active:scale-95 disabled:bg-slate-400 transition-all"
                         >
                             {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <UserPlus className="h-5 w-5" />}
                             {loading ? "Registering..." : "Sync Identity"}
