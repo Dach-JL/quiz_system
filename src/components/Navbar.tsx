@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";
 import { Menu, X, BrainCircuit, ShieldAlert } from "lucide-react";
 
 export function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [user, setUser] = useState<any>(null);
+    const pathname = usePathname();
 
     useEffect(() => {
         const fetchSession = async () => {
@@ -39,12 +41,16 @@ export function Navbar() {
                         </Link>
 
                         <div className="hidden md:flex items-center gap-6">
-                            <Link href="/dashboard" className="text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-indigo-600 transition-colors">Dashboard</Link>
-                            <Link href="/leaderboard" className="text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-indigo-600 transition-colors">Leaderboard</Link>
-                            {user?.role === 'admin' && (
-                                <Link href="/admin/dashboard" className="flex items-center gap-1.5 text-sm font-black text-rose-600 dark:text-rose-400 hover:text-rose-500 transition-colors">
-                                    <ShieldAlert className="h-4 w-4" /> Admin Panel
-                                </Link>
+                            {user && pathname !== '/' && (
+                                <>
+                                    <Link href="/dashboard" className="text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-indigo-600 transition-colors">Dashboard</Link>
+                                    <Link href="/leaderboard" className="text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-indigo-600 transition-colors">Leaderboard</Link>
+                                    {user.role === 'admin' && (
+                                        <Link href="/admin/dashboard" className="flex items-center gap-1.5 text-sm font-black text-rose-600 dark:text-rose-400 hover:text-rose-500 transition-colors">
+                                            <ShieldAlert className="h-4 w-4" /> Admin Panel
+                                        </Link>
+                                    )}
+                                </>
                             )}
                         </div>
                     </div>
@@ -80,11 +86,27 @@ export function Navbar() {
             {/* Mobile menu */}
             {isOpen && (
                 <div className="md:hidden border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-slate-900 px-4 py-6 space-y-4">
-                    <Link href="/dashboard" onClick={() => setIsOpen(false)} className="block text-lg font-bold text-gray-900 dark:text-white">Dashboard</Link>
-                    <Link href="/leaderboard" onClick={() => setIsOpen(false)} className="block text-lg font-bold text-gray-900 dark:text-white">Leaderboard</Link>
-                    <div className="h-px bg-gray-100 dark:bg-gray-800 w-full" />
-                    <Link href="/login" onClick={() => setIsOpen(false)} className="block text-lg font-bold text-gray-900 dark:text-white">Sign In</Link>
-                    <Link href="/register" onClick={() => setIsOpen(false)} className="block w-full py-4 bg-indigo-600 text-white rounded-2xl text-center font-black shadow-xl shadow-indigo-100 dark:shadow-none">Get Started</Link>
+                    {user && pathname !== '/' && (
+                        <>
+                            <Link href="/dashboard" onClick={() => setIsOpen(false)} className="block text-lg font-bold text-gray-900 dark:text-white">Dashboard</Link>
+                            <Link href="/leaderboard" onClick={() => setIsOpen(false)} className="block text-lg font-bold text-gray-900 dark:text-white">Leaderboard</Link>
+                            <div className="h-px bg-gray-100 dark:bg-gray-800 w-full" />
+                        </>
+                    )}
+                    {!user ? (
+                        <>
+                            <Link href="/login" onClick={() => setIsOpen(false)} className="block text-lg font-bold text-gray-900 dark:text-white">Sign In</Link>
+                            <Link href="/register" onClick={() => setIsOpen(false)} className="block w-full py-4 bg-indigo-600 text-white rounded-2xl text-center font-black shadow-xl shadow-indigo-100 dark:shadow-none">Get Started</Link>
+                        </>
+                    ) : (
+                        <div className="space-y-4">
+                            <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
+                                <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Active Session</p>
+                                <p className="text-sm font-black text-slate-900 dark:text-white">{user.name}</p>
+                            </div>
+                            <Link href="/api/auth/logout" onClick={() => setIsOpen(false)} className="block w-full py-4 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-2xl text-center font-black">Sign Out</Link>
+                        </div>
+                    )}
                 </div>
             )}
         </nav>
