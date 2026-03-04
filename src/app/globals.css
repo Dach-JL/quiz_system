@@ -6,9 +6,12 @@
 }
 
 .dark {
-  --background: #0f172a;
+  --background: #020617;
   --foreground: #f8fafc;
+  color-scheme: dark;
 }
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
   --color-background: var(--background);
@@ -29,4 +32,3 @@ body {
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
   min-height: 100vh;
 }
-
