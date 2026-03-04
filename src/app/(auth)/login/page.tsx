@@ -39,17 +39,17 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col justify-center items-center p-6 transition-colors duration-500">
-            <div className="w-full max-w-lg">
-                <div className="text-center mb-16 animate-fade-in">
-                    <div className="inline-flex p-4 bg-indigo-600 rounded-2xl text-white shadow-2xl mb-10">
-                        <BrainCircuit className="h-8 w-8" />
+            <div className="w-full max-w-md">
+                <div className="text-center mb-10 animate-fade-in">
+                    <div className="inline-flex p-3 bg-indigo-600 rounded-xl text-white shadow-2xl mb-8">
+                        <BrainCircuit className="h-6 w-6" />
                     </div>
-                    <h1 className="text-5xl font-black text-slate-900 dark:text-white tracking-tighter leading-none mb-4">Welcome <br />Back.</h1>
-                    <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest italic leading-none underline decoration-indigo-500/20 underline-offset-8">Access your personalized learning terminal</p>
+                    <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-none mb-3">Welcome <br />Back.</h1>
+                    <p className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest italic leading-none underline decoration-indigo-500/20 underline-offset-4">Access your personalized learning terminal</p>
                 </div>
 
-                <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] shadow-[0_40px_100px_rgba(0,0,0,0.06)] dark:shadow-none border border-slate-100 dark:border-slate-800">
-                    <form onSubmit={handleSubmit} className="space-y-8">
+                <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl shadow-[0_40px_100px_rgba(0,0,0,0.06)] dark:shadow-none border border-slate-100 dark:border-slate-800">
+                    <form onSubmit={handleSubmit} className="space-y-6">
                         {error && (
                             <div className="p-5 bg-rose-50 dark:bg-rose-500/10 border-2 border-rose-100 dark:border-rose-500/20 rounded-2xl text-rose-600 dark:text-rose-400 text-sm font-black italic text-center">
                                 Error: {error}
@@ -59,11 +59,11 @@ export default function LoginPage() {
                         <div className="space-y-3">
                             <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2">Uplink Email</label>
                             <div className="relative group">
-                                <Mail className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-300 dark:text-slate-600 group-focus-within:text-indigo-600 transition-colors" />
+                                <Mail className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 dark:text-slate-600 group-focus-within:text-indigo-600 transition-colors" />
                                 <input
                                     type="email"
                                     required
-                                    className="w-full pl-16 pr-8 py-5 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-2xl focus:border-indigo-600 dark:focus:border-indigo-500 transition-all outline-none font-bold text-slate-900 dark:text-white"
+                                    className="w-full pl-12 pr-6 py-3.5 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-xl focus:border-indigo-600 dark:focus:border-indigo-500 transition-all outline-none font-bold text-slate-900 dark:text-white text-sm"
                                     placeholder="node@nexus.com"
                                     value={formData.email}
                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -74,11 +74,11 @@ export default function LoginPage() {
                         <div className="space-y-3">
                             <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2">Security Key</label>
                             <div className="relative group">
-                                <Lock className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-300 dark:text-slate-600 group-focus-within:text-indigo-600 transition-colors" />
+                                <Lock className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 dark:text-slate-600 group-focus-within:text-indigo-600 transition-colors" />
                                 <input
                                     type="password"
                                     required
-                                    className="w-full pl-16 pr-8 py-5 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-2xl focus:border-indigo-600 dark:focus:border-indigo-500 transition-all outline-none font-bold text-slate-900 dark:text-white"
+                                    className="w-full pl-12 pr-6 py-3.5 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-xl focus:border-indigo-600 dark:focus:border-indigo-500 transition-all outline-none font-bold text-slate-900 dark:text-white text-sm"
                                     placeholder="••••••••"
                                     value={formData.password}
                                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
