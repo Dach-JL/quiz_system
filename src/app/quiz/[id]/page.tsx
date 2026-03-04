@@ -140,13 +140,13 @@ export default function QuizPage() {
                 {/* Question Terminal */}
                 <div className="bg-white dark:bg-slate-900 p-10 sm:p-20 rounded-[4rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] dark:shadow-none border border-slate-100 dark:border-slate-800 relative">
                     <div className="absolute top-0 right-0 p-8">
-                        <span className="text-[8rem] font-black text-slate-50 dark:text-slate-800/50 select-none leading-none -mt-4 -mr-4">
+                        <span className="text-[5rem] font-black text-slate-100 dark:text-slate-800/30 select-none leading-none -mt-4 -mr-4">
                             {currentQuestionIndex + 1}
                         </span>
                     </div>
 
                     <div className="relative z-10">
-                        <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mb-16 leading-[1.1] tracking-tight max-w-2xl">
+                        <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mb-12 leading-[1.2] tracking-tight max-w-2xl">
                             {currentQuestion.question_text}
                         </h2>
 
@@ -156,18 +156,18 @@ export default function QuizPage() {
                                     key={index}
                                     onClick={() => handleAnswerSelect(option)}
                                     className={`w-full group flex items-center justify-between p-8 rounded-[2rem] border-[3px] transition-all duration-300 ${answers[currentQuestion.id] === option
-                                            ? "border-indigo-600 bg-indigo-50/50 dark:bg-indigo-500/10 shadow-xl shadow-indigo-500/10"
-                                            : "border-slate-100 dark:border-slate-800/50 bg-white dark:bg-slate-800/50 hover:border-indigo-200 dark:hover:border-indigo-500/30 hover:-translate-y-1"
+                                        ? "border-indigo-600 bg-indigo-50/50 dark:bg-indigo-500/10 shadow-xl shadow-indigo-500/10"
+                                        : "border-slate-100 dark:border-slate-800/50 bg-white dark:bg-slate-800/50 hover:border-indigo-200 dark:hover:border-indigo-500/30 hover:-translate-y-1"
                                         }`}
                                 >
                                     <div className="flex items-center gap-6">
-                                        <div className={`h-10 w-10 rounded-xl border-2 flex items-center justify-center text-xs font-black transition-colors ${answers[currentQuestion.id] === option
+                                        <div className={`h-8 w-8 rounded-lg border-2 flex items-center justify-center text-[10px] font-black transition-colors ${answers[currentQuestion.id] === option
                                                 ? "bg-indigo-600 border-indigo-600 text-white"
                                                 : "border-slate-200 dark:border-slate-700 text-slate-400 dark:text-slate-600 group-hover:border-indigo-400"
                                             }`}>
                                             {String.fromCharCode(65 + index)}
                                         </div>
-                                        <span className={`text-lg transition-colors text-left ${answers[currentQuestion.id] === option ? "text-indigo-900 dark:text-indigo-400 font-black" : "text-slate-700 dark:text-slate-400 font-bold"}`}>
+                                        <span className={`text-base transition-colors text-left ${answers[currentQuestion.id] === option ? "text-indigo-900 dark:text-indigo-400 font-black" : "text-slate-700 dark:text-slate-400 font-bold"}`}>
                                             {option}
                                         </span>
                                     </div>

@@ -44,9 +44,9 @@ export default async function AdminDashboard() {
                             <div className="h-1 w-12 bg-indigo-600 rounded-full"></div>
                             <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.3em]">System Level: Root</span>
                         </div>
-                        <h1 className="text-6xl font-black text-slate-900 dark:text-white tracking-tighter leading-none">Admin <br />Dashboard</h1>
+                        <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter leading-none">Admin Dashboard</h1>
                     </div>
-                    <Link href="/admin/quizzes" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-indigo-600 text-white px-10 py-6 rounded-[2.5rem] font-black text-base shadow-2xl shadow-indigo-100 dark:shadow-none hover:bg-indigo-500 hover:-translate-y-2 transition-all active:scale-95 group">
+                    <Link href="/admin/quizzes" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-indigo-600 text-white px-8 py-5 rounded-[2rem] font-black text-sm shadow-2xl shadow-indigo-100 dark:shadow-none hover:bg-indigo-500 hover:-translate-y-1 transition-all active:scale-95 group">
                         Manage Knowledge Terminal <ArrowUpRight className="h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                     </Link>
                 </div>
@@ -61,7 +61,7 @@ export default async function AdminDashboard() {
                                 </div>
                             </div>
                             <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.3em] mb-2">{item.name}</p>
-                            <p className="text-5xl font-black text-slate-900 dark:text-white tracking-tighter tabular-nums">{item.value}</p>
+                            <p className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter tabular-nums">{item.value}</p>
                         </div>
                     ))}
                 </div>

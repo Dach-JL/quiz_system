@@ -30,8 +30,8 @@ export default async function LeaderboardPage() {
                     <div className="inline-flex p-4 bg-indigo-600 rounded-[2rem] text-white shadow-2xl mb-8">
                         <Trophy className="h-8 w-8" />
                     </div>
-                    <h1 className="text-6xl font-black text-slate-900 dark:text-white tracking-tighter leading-none mb-6">Hall of <br />Elite</h1>
-                    <p className="text-lg font-bold text-slate-500 dark:text-slate-400 italic max-w-lg mx-auto underline decoration-indigo-500/20 underline-offset-8">
+                    <h1 className="text-5xl font-black text-slate-900 dark:text-white tracking-tighter leading-none mb-6">Hall of Elite</h1>
+                    <p className="text-base font-bold text-slate-500 dark:text-slate-400 italic max-w-lg mx-auto underline decoration-indigo-500/20 underline-offset-8">
                         Only the top 1% of cognitive performers achieve status here.
                     </p>
                 </div>
@@ -77,8 +77,8 @@ export default async function LeaderboardPage() {
                                         </td>
                                         <td className="whitespace-nowrap px-8 py-8 text-right">
                                             <span className={`inline-flex items-center rounded-2xl px-4 py-1.5 text-xs font-black ring-1 ring-inset ${row.percentage >= 80 ? 'bg-emerald-50 text-emerald-700 ring-emerald-600/20 dark:bg-emerald-400/10 dark:text-emerald-400' :
-                                                    row.percentage >= 60 ? 'bg-amber-50 text-amber-700 ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-400' :
-                                                        'bg-rose-50 text-rose-700 ring-rose-600/20 dark:bg-rose-400/10 dark:text-rose-400'
+                                                row.percentage >= 60 ? 'bg-amber-50 text-amber-700 ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-400' :
+                                                    'bg-rose-50 text-rose-700 ring-rose-600/20 dark:bg-rose-400/10 dark:text-rose-400'
                                                 }`}>
                                                 {row.percentage}%
                                             </span>

@@ -34,26 +34,26 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
                             {isPassed ? <Trophy className="h-12 w-12" /> : <Target className="h-12 w-12" />}
                         </div>
 
-                        <h1 className="text-5xl sm:text-7xl font-black text-slate-900 dark:text-white mb-6 tracking-tighter leading-none">
+                        <h1 className="text-4xl sm:text-5xl font-black text-slate-900 dark:text-white mb-4 tracking-tighter leading-none">
                             {isPassed ? "ELITE STATUS" : "LEVEL FAILED"}
                         </h1>
                         <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.4em] mb-16 italic">Module Analysis: {result.quiz_title}</p>
 
                         <div className="relative inline-flex items-center justify-center mb-20">
                             <div className={`absolute inset-0 rounded-full blur-[80px] opacity-30 ${isPassed ? 'bg-emerald-500' : 'bg-rose-500'}`}></div>
-                            <div className="relative h-64 w-64 rounded-full border-[16px] border-slate-50 dark:border-slate-800 flex flex-col items-center justify-center bg-white dark:bg-slate-900 shadow-2xl">
-                                <span className={`text-7xl font-black tracking-tighter ${isPassed ? 'text-emerald-600' : 'text-rose-600'}`}>{percentage}%</span>
+                            <div className="relative h-48 w-48 rounded-full border-[12px] border-slate-50 dark:border-slate-800 flex flex-col items-center justify-center bg-white dark:bg-slate-900 shadow-2xl">
+                                <span className={`text-5xl font-black tracking-tighter ${isPassed ? 'text-emerald-600' : 'text-rose-600'}`}>{percentage}%</span>
                                 <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-2">Proficiency</span>
                             </div>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-16 max-w-2xl mx-auto">
-                            <div className="bg-slate-50 dark:bg-slate-800/50 p-10 rounded-[3rem] border border-slate-100 dark:border-slate-800 transition-all hover:scale-105">
-                                <span className="block text-5xl font-black text-slate-900 dark:text-white tabular-nums mb-2">{result.score}</span>
+                            <div className="bg-slate-50 dark:bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 transition-all hover:scale-105">
+                                <span className="block text-4xl font-black text-slate-900 dark:text-white tabular-nums mb-2">{result.score}</span>
                                 <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Validated Assets</span>
                             </div>
-                            <div className="bg-slate-50 dark:bg-slate-800/50 p-10 rounded-[3rem] border border-slate-100 dark:border-slate-800 transition-all hover:scale-105">
-                                <span className="block text-5xl font-black text-slate-900 dark:text-white tabular-nums mb-2">{result.total_questions - result.score}</span>
+                            <div className="bg-slate-50 dark:bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 transition-all hover:scale-105">
+                                <span className="block text-4xl font-black text-slate-900 dark:text-white tabular-nums mb-2">{result.total_questions - result.score}</span>
                                 <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Resource Gaps</span>
                             </div>
                         </div>

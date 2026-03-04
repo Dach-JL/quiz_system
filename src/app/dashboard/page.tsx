@@ -24,7 +24,7 @@ export default async function DashboardPage() {
                             <div className="h-1 w-12 bg-indigo-600 rounded-full"></div>
                             <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Knowledge Clusters</span>
                         </div>
-                        <h1 className="text-5xl font-black text-slate-900 dark:text-white tracking-tighter leading-none">Command <br />Center</h1>
+                        <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter leading-none">Command Center</h1>
                     </div>
                     <div className="flex gap-4">
                         <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl flex items-center gap-4">
@@ -48,23 +48,23 @@ export default async function DashboardPage() {
                                         <BrainCircuit className="h-6 w-6 text-white" />
                                     </div>
                                     <span className={`inline-flex items-center rounded-full px-4 py-1 text-[10px] font-black uppercase tracking-widest ring-1 ring-inset ${quiz.difficulty === 'easy' ? 'bg-emerald-50 text-emerald-700 ring-emerald-600/20 dark:bg-emerald-400/10 dark:text-emerald-400' :
-                                            quiz.difficulty === 'medium' ? 'bg-amber-50 text-amber-700 ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-400' :
-                                                'bg-rose-50 text-rose-700 ring-rose-600/20 dark:bg-rose-400/10 dark:text-rose-400'
+                                        quiz.difficulty === 'medium' ? 'bg-amber-50 text-amber-700 ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-400' :
+                                            'bg-rose-50 text-rose-700 ring-rose-600/20 dark:bg-rose-400/10 dark:text-rose-400'
                                         }`}>
                                         {quiz.difficulty}
                                     </span>
                                 </div>
-                                <h3 className="text-3xl font-black text-slate-900 dark:text-white leading-tight mb-4">{quiz.title}</h3>
+                                <h3 className="text-2xl font-black text-slate-900 dark:text-white leading-tight mb-4">{quiz.title}</h3>
                                 <p className="text-sm font-bold text-slate-500 dark:text-slate-400 leading-relaxed italic mb-8">{quiz.description}</p>
 
                                 <div className="flex items-center gap-6 text-slate-400 dark:text-slate-500">
                                     <div className="flex flex-col">
-                                        <span className="text-lg font-black text-slate-900 dark:text-white leading-none">{quiz.question_count}</span>
+                                        <span className="text-base font-black text-slate-900 dark:text-white leading-none">{quiz.question_count}</span>
                                         <span className="text-[10px] font-black uppercase tracking-widest mt-1">Modules</span>
                                     </div>
                                     <div className="w-px h-8 bg-slate-100 dark:bg-slate-800"></div>
                                     <div className="flex flex-col">
-                                        <span className="text-lg font-black text-slate-900 dark:text-white leading-none">{(quiz.question_count * 1.5).toFixed(0)}m</span>
+                                        <span className="text-base font-black text-slate-900 dark:text-white leading-none">{(quiz.question_count * 1.5).toFixed(0)}m</span>
                                         <span className="text-[10px] font-black uppercase tracking-widest mt-1">Est. Time</span>
                                     </div>
                                 </div>

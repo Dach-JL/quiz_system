@@ -23,11 +23,11 @@ export default function Home() {
               </div>
             </div>
 
-            <h1 className="text-6xl sm:text-8xl lg:text-[10rem] font-black tracking-tighter text-slate-900 dark:text-white leading-[0.8] mb-12">
-              MASTER <br /><span className="text-indigo-600 underline decoration-indigo-200 dark:decoration-indigo-500/30 decoration-[16px] underline-offset-[16px]">KNOWLEDGE.</span>
+            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black tracking-tighter text-slate-900 dark:text-white leading-[0.9] mb-10">
+              MASTER <br /><span className="text-indigo-600 underline decoration-indigo-200 dark:decoration-indigo-500/30 decoration-[8px] sm:decoration-[12px] underline-offset-[12px]">KNOWLEDGE.</span>
             </h1>
 
-            <p className="mt-12 text-xl sm:text-2xl leading-relaxed text-slate-600 dark:text-slate-400 font-bold max-w-2xl mx-auto italic">
+            <p className="mt-8 text-lg sm:text-xl leading-relaxed text-slate-600 dark:text-slate-400 font-bold max-w-2xl mx-auto italic">
               Experience the world's most advanced evaluation engine. Built for high-performance learners and elite institutions.
             </p>
 
@@ -60,8 +60,8 @@ export default function Home() {
                 <div className="mb-8 inline-flex p-5 bg-indigo-600 rounded-2xl text-white shadow-xl shadow-indigo-100 dark:shadow-none group-hover:scale-110 transition-transform">
                   {feature.icon}
                 </div>
-                <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-4 tracking-tight leading-none">{feature.title}</h3>
-                <p className="text-base font-bold text-slate-500 dark:text-slate-400 leading-relaxed italic">{feature.desc}</p>
+                <h3 className="text-xl font-black text-slate-900 dark:text-white mb-3 tracking-tight leading-none">{feature.title}</h3>
+                <p className="text-sm font-bold text-slate-500 dark:text-slate-400 leading-relaxed italic">{feature.desc}</p>
               </div>
             ))}
           </div>
