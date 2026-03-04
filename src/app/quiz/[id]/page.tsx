@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { BrainCircuit, Clock, ChevronLeft, Send, Loader2 } from "lucide-react";
 
 export default function QuizPage() {
     const params = useParams();
@@ -59,6 +60,7 @@ export default function QuizPage() {
     };
 
     const handleSubmit = async () => {
+        if (isSubmitting) return;
         setIsSubmitting(true);
         try {
             const response = await fetch("/api/quiz/submit", {
@@ -85,10 +87,10 @@ export default function QuizPage() {
 
     if (loading) {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-gray-50">
+            <div className="flex min-h-screen items-center justify-center bg-white dark:bg-slate-950">
                 <div className="text-center">
-                    <div className="h-12 w-12 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent mx-auto"></div>
-                    <p className="mt-4 text-gray-600 font-medium">Loading quiz...</p>
+                    <Loader2 className="h-16 w-16 animate-spin text-indigo-600 mx-auto" />
+                    <p className="mt-6 text-slate-500 dark:text-slate-400 font-black uppercase tracking-[0.3em] text-xs">Initializing Session</p>
                 </div>
             </div>
         );
@@ -102,82 +104,110 @@ export default function QuizPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-3xl">
-                {/* Header */}
-                <div className="mb-8 flex items-center justify-between bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <div>
-                        <h1 className="text-2xl font-bold text-gray-900">{quiz?.title}</h1>
-                        <p className="text-sm text-gray-500">Question {currentQuestionIndex + 1} of {questions.length}</p>
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-12 pb-24 px-4 sm:px-6 lg:px-8 transition-colors duration-500">
+            <div className="mx-auto max-w-4xl">
+                {/* Header Card */}
+                <div className="mb-12 flex flex-col sm:flex-row items-center justify-between bg-white dark:bg-slate-900 p-10 rounded-[3rem] shadow-2xl border border-slate-100 dark:border-slate-800 gap-8">
+                    <div className="flex items-center gap-6">
+                        <div className="p-5 bg-indigo-600 rounded-[1.5rem] shadow-xl shadow-indigo-100 dark:shadow-none">
+                            <BrainCircuit className="h-8 w-8 text-white" />
+                        </div>
+                        <div>
+                            <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-none mb-2">{quiz?.title}</h1>
+                            <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">{quiz?.category} <span className="mx-2">•</span> Module {currentQuestionIndex + 1} of {questions.length}</p>
+                        </div>
                     </div>
-                    <div className={`flex flex-col items-end ${timeLeft < 60 ? 'text-red-600 animate-pulse' : 'text-indigo-600'}`}>
-                        <span className="text-xs font-bold uppercase tracking-wider">Time Left</span>
-                        <span className="text-2xl font-mono font-bold">{formatTime(timeLeft)}</span>
+                    <div className={`flex flex-col items-center sm:items-end px-8 py-4 rounded-[2rem] border-2 transition-all ${timeLeft < 60 ? 'border-rose-500 bg-rose-50 dark:bg-rose-500/10 animate-pulse' : 'border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50'}`}>
+                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 mb-1 flex items-center gap-1">
+                            <Clock className="h-3 w-3" /> Remaining
+                        </span>
+                        <span className={`text-3xl font-black font-mono tracking-tighter ${timeLeft < 60 ? 'text-rose-600' : 'text-indigo-600 dark:text-indigo-400'}`}>
+                            {formatTime(timeLeft)}
+                        </span>
                     </div>
                 </div>
 
-                {/* Progress Bar */}
-                <div className="mb-8 h-2 w-full overflow-hidden rounded-full bg-gray-200">
-                    <div
-                        className="h-full bg-indigo-600 transition-all duration-300"
-                        style={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
-                    ></div>
+                {/* Progress Indicators */}
+                <div className="mb-16">
+                    <div className="h-4 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800 p-1">
+                        <div
+                            className="h-full bg-indigo-600 rounded-full shadow-[0_0_20px_rgba(79,70,229,0.5)] transition-all duration-700 ease-out"
+                            style={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
+                        ></div>
+                    </div>
                 </div>
 
-                {/* Question Card */}
-                <div className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100">
-                    <h2 className="text-xl font-semibold text-gray-900 mb-8">
-                        {currentQuestion.question_text}
-                    </h2>
-
-                    <div className="space-y-4">
-                        {currentQuestion.options.map((option: string, index: number) => (
-                            <button
-                                key={index}
-                                onClick={() => handleAnswerSelect(option)}
-                                className={`w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all ${answers[currentQuestion.id] === option
-                                        ? "border-indigo-600 bg-indigo-50 ring-1 ring-indigo-600"
-                                        : "border-gray-100 bg-gray-50 hover:border-indigo-200 hover:bg-white"
-                                    }`}
-                            >
-                                <span className={`text-lg ${answers[currentQuestion.id] === option ? "text-indigo-900 font-bold" : "text-gray-700 font-medium"}`}>
-                                    {option}
-                                </span>
-                                <div className={`h-6 w-6 rounded-full border-2 flex items-center justify-center ${answers[currentQuestion.id] === option ? "border-indigo-600 bg-indigo-600" : "border-gray-300"
-                                    }`}>
-                                    {answers[currentQuestion.id] === option && (
-                                        <div className="h-2 w-2 rounded-full bg-white"></div>
-                                    )}
-                                </div>
-                            </button>
-                        ))}
+                {/* Question Terminal */}
+                <div className="bg-white dark:bg-slate-900 p-10 sm:p-20 rounded-[4rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] dark:shadow-none border border-slate-100 dark:border-slate-800 relative">
+                    <div className="absolute top-0 right-0 p-8">
+                        <span className="text-[8rem] font-black text-slate-50 dark:text-slate-800/50 select-none leading-none -mt-4 -mr-4">
+                            {currentQuestionIndex + 1}
+                        </span>
                     </div>
 
-                    <div className="mt-12 flex items-center justify-between">
-                        <button
-                            disabled={currentQuestionIndex === 0}
-                            onClick={() => setCurrentQuestionIndex(currentQuestionIndex - 1)}
-                            className="px-6 py-3 text-sm font-bold text-gray-600 hover:text-indigo-600 disabled:opacity-30 disabled:hover:text-gray-600 transition-colors"
-                        >
-                            ← Previous
-                        </button>
+                    <div className="relative z-10">
+                        <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mb-16 leading-[1.1] tracking-tight max-w-2xl">
+                            {currentQuestion.question_text}
+                        </h2>
 
-                        {currentQuestionIndex === questions.length - 1 ? (
+                        <div className="grid grid-cols-1 gap-6">
+                            {currentQuestion.options.map((option: string, index: number) => (
+                                <button
+                                    key={index}
+                                    onClick={() => handleAnswerSelect(option)}
+                                    className={`w-full group flex items-center justify-between p-8 rounded-[2rem] border-[3px] transition-all duration-300 ${answers[currentQuestion.id] === option
+                                            ? "border-indigo-600 bg-indigo-50/50 dark:bg-indigo-500/10 shadow-xl shadow-indigo-500/10"
+                                            : "border-slate-100 dark:border-slate-800/50 bg-white dark:bg-slate-800/50 hover:border-indigo-200 dark:hover:border-indigo-500/30 hover:-translate-y-1"
+                                        }`}
+                                >
+                                    <div className="flex items-center gap-6">
+                                        <div className={`h-10 w-10 rounded-xl border-2 flex items-center justify-center text-xs font-black transition-colors ${answers[currentQuestion.id] === option
+                                                ? "bg-indigo-600 border-indigo-600 text-white"
+                                                : "border-slate-200 dark:border-slate-700 text-slate-400 dark:text-slate-600 group-hover:border-indigo-400"
+                                            }`}>
+                                            {String.fromCharCode(65 + index)}
+                                        </div>
+                                        <span className={`text-lg transition-colors text-left ${answers[currentQuestion.id] === option ? "text-indigo-900 dark:text-indigo-400 font-black" : "text-slate-700 dark:text-slate-400 font-bold"}`}>
+                                            {option}
+                                        </span>
+                                    </div>
+                                    <div className={`h-6 w-6 rounded-full border-[3px] flex items-center justify-center transition-all ${answers[currentQuestion.id] === option ? "border-indigo-600 bg-indigo-600 scale-125" : "border-slate-200 dark:border-slate-700 opacity-20 group-hover:opacity-100"
+                                        }`}>
+                                        {answers[currentQuestion.id] === option && (
+                                            <div className="h-2 w-2 rounded-full bg-white"></div>
+                                        )}
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="mt-20 flex flex-col sm:flex-row items-center justify-between gap-8">
                             <button
-                                onClick={handleSubmit}
-                                disabled={isSubmitting}
-                                className="px-10 py-4 bg-indigo-600 text-white rounded-xl font-bold shadow-lg shadow-indigo-200 hover:bg-indigo-500 disabled:bg-gray-400 transition-all"
+                                disabled={currentQuestionIndex === 0}
+                                onClick={() => setCurrentQuestionIndex(currentQuestionIndex - 1)}
+                                className="flex items-center gap-2 px-10 py-5 text-sm font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 disabled:opacity-0 transition-all active:scale-90"
                             >
-                                {isSubmitting ? "Submitting..." : "Submit Quiz"}
+                                <ChevronLeft className="h-4 w-4" /> Previous Module
                             </button>
-                        ) : (
-                            <button
-                                onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)}
-                                className="px-10 py-4 bg-indigo-600 text-white rounded-xl font-bold shadow-lg shadow-indigo-200 hover:bg-indigo-500 transition-all"
-                            >
-                                Next Question →
-                            </button>
-                        )}
+
+                            {currentQuestionIndex === questions.length - 1 ? (
+                                <button
+                                    onClick={handleSubmit}
+                                    disabled={isSubmitting}
+                                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-16 py-6 bg-slate-900 dark:bg-indigo-600 text-white rounded-[2rem] font-black text-base shadow-[0_20px_50px_rgba(0,0,0,0.2)] dark:shadow-none hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-2 active:scale-95 disabled:bg-slate-400 transition-all"
+                                >
+                                    {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
+                                    {isSubmitting ? "Finalizing..." : "Submit Decision"}
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)}
+                                    className="w-full sm:w-auto px-16 py-6 bg-indigo-600 text-white rounded-[2rem] font-black text-base shadow-[0_20px_40px_rgba(79,70,229,0.3)] dark:shadow-none hover:bg-indigo-500 hover:-translate-y-2 active:scale-95 transition-all"
+                                >
+                                    Review Next
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

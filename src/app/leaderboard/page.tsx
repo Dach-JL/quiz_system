@@ -1,8 +1,8 @@
 import Link from "next/link";
 import sql from "@/lib/db";
+import { Trophy, ArrowUpRight, Crown, Medal } from "lucide-react";
 
 async function getLeaderboard() {
-    // We can call the DB directly here as it's a server component
     const data = await sql`
         SELECT 
             u.name as username, 
@@ -24,72 +24,83 @@ export default async function LeaderboardPage() {
     const rankings = await getLeaderboard();
 
     return (
-        <div className="min-h-screen bg-gray-50 pb-12">
-            <header className="bg-white shadow-sm ring-1 ring-gray-900/5">
-                <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex items-center justify-between">
-                    <div>
-                        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Leaderboard</h1>
-                        <p className="mt-2 text-sm text-gray-500 font-medium italic">Global Top Performers</p>
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-24 transition-colors duration-500">
+            <main className="mx-auto max-w-5xl px-4 py-20 sm:px-6 lg:px-8">
+                <div className="text-center mb-20 animate-fade-in">
+                    <div className="inline-flex p-4 bg-indigo-600 rounded-[2rem] text-white shadow-2xl mb-8">
+                        <Trophy className="h-8 w-8" />
                     </div>
-                    <Link href="/dashboard" className="text-sm font-semibold text-indigo-600 hover:text-indigo-500 flex items-center gap-1">
-                        ← Back to Dashboard
-                    </Link>
+                    <h1 className="text-6xl font-black text-slate-900 dark:text-white tracking-tighter leading-none mb-6">Hall of <br />Elite</h1>
+                    <p className="text-lg font-bold text-slate-500 dark:text-slate-400 italic max-w-lg mx-auto underline decoration-indigo-500/20 underline-offset-8">
+                        Only the top 1% of cognitive performers achieve status here.
+                    </p>
                 </div>
-            </header>
 
-            <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
-                <div className="overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-gray-900/5">
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
-                            <tr>
-                                <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">Rank</th>
-                                <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">User</th>
-                                <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">Quiz</th>
-                                <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">Score</th>
-                                <th scope="col" className="px-6 py-4 text-right text-xs font-bold text-gray-400 uppercase tracking-widest">Percentage</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200 bg-white">
-                            {rankings.map((row: any, index: number) => (
-                                <tr key={index} className="hover:bg-gray-50/50 transition-colors">
-                                    <td className="whitespace-nowrap px-6 py-5 text-sm font-bold">
-                                        <div className="flex items-center gap-2">
-                                            {index === 0 ? <span className="text-xl">🥇</span> :
-                                                index === 1 ? <span className="text-xl">🥈</span> :
-                                                    index === 2 ? <span className="text-xl">🥉</span> :
-                                                        <span className="text-gray-400">#{index + 1}</span>}
-                                        </div>
-                                    </td>
-                                    <td className="whitespace-nowrap px-6 py-5">
-                                        <div className="text-sm font-bold text-gray-900">{row.username}</div>
-                                    </td>
-                                    <td className="whitespace-nowrap px-6 py-5">
-                                        <div className="text-sm text-gray-500">{row.quiz_title}</div>
-                                    </td>
-                                    <td className="whitespace-nowrap px-6 py-5">
-                                        <div className="text-sm font-medium text-gray-900">
-                                            {row.score} / {row.total_questions}
-                                        </div>
-                                    </td>
-                                    <td className="whitespace-nowrap px-6 py-5 text-right">
-                                        <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-sm font-bold ring-1 ring-inset ${row.percentage >= 80 ? 'bg-green-50 text-green-700 ring-green-600/20' :
-                                                row.percentage >= 60 ? 'bg-yellow-50 text-yellow-700 ring-yellow-600/20' :
-                                                    'bg-red-50 text-red-700 ring-red-600/20'
-                                            }`}>
-                                            {row.percentage}%
-                                        </span>
-                                    </td>
-                                </tr>
-                            ))}
-                            {rankings.length === 0 && (
+                <div className="overflow-hidden rounded-[3rem] bg-white dark:bg-slate-900 shadow-2xl border border-slate-100 dark:border-slate-800">
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full divide-y divide-slate-100 dark:divide-slate-800">
+                            <thead className="bg-slate-50/80 dark:bg-slate-800/50 backdrop-blur-sm">
                                 <tr>
-                                    <td colSpan={5} className="px-6 py-12 text-center text-sm text-gray-500 italic">
-                                        No results found. Be the first to take a quiz!
-                                    </td>
+                                    <th scope="col" className="px-8 py-6 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Rank</th>
+                                    <th scope="col" className="px-8 py-6 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">User Node</th>
+                                    <th scope="col" className="px-8 py-6 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Module</th>
+                                    <th scope="col" className="px-8 py-6 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Score</th>
+                                    <th scope="col" className="px-8 py-6 text-right text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Efficiency</th>
                                 </tr>
-                            )}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody className="divide-y divide-slate-50 dark:divide-slate-800 bg-white dark:bg-transparent">
+                                {rankings.map((row: any, index: number) => (
+                                    <tr key={index} className="group hover:bg-indigo-50/30 dark:hover:bg-indigo-500/5 transition-all duration-300">
+                                        <td className="whitespace-nowrap px-8 py-8">
+                                            <div className="flex items-center gap-4">
+                                                {index === 0 ? <Crown className="h-6 w-6 text-amber-500" /> :
+                                                    index === 1 ? <Medal className="h-6 w-6 text-slate-400" /> :
+                                                        index === 2 ? <Medal className="h-6 w-6 text-amber-700" /> :
+                                                            <span className="text-sm font-black text-slate-300 dark:text-slate-700 tabular-nums">#{index + 1}</span>}
+                                            </div>
+                                        </td>
+                                        <td className="whitespace-nowrap px-8 py-8">
+                                            <div className="flex items-center gap-4">
+                                                <div className="h-10 w-10 rounded-xl bg-slate-900 dark:bg-white flex items-center justify-center text-xs font-black text-white dark:text-slate-900 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                                                    {row.username.charAt(0)}
+                                                </div>
+                                                <div className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight">{row.username}</div>
+                                            </div>
+                                        </td>
+                                        <td className="whitespace-nowrap px-8 py-8">
+                                            <div className="text-sm font-bold text-slate-500 dark:text-slate-400 italic">{row.quiz_title}</div>
+                                        </td>
+                                        <td className="whitespace-nowrap px-8 py-8">
+                                            <div className="text-sm font-black text-slate-900 dark:text-white font-mono">
+                                                {row.score}<span className="text-slate-200 dark:text-slate-700 mx-1">/</span>{row.total_questions}
+                                            </div>
+                                        </td>
+                                        <td className="whitespace-nowrap px-8 py-8 text-right">
+                                            <span className={`inline-flex items-center rounded-2xl px-4 py-1.5 text-xs font-black ring-1 ring-inset ${row.percentage >= 80 ? 'bg-emerald-50 text-emerald-700 ring-emerald-600/20 dark:bg-emerald-400/10 dark:text-emerald-400' :
+                                                    row.percentage >= 60 ? 'bg-amber-50 text-amber-700 ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-400' :
+                                                        'bg-rose-50 text-rose-700 ring-rose-600/20 dark:bg-rose-400/10 dark:text-rose-400'
+                                                }`}>
+                                                {row.percentage}%
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
+                                {rankings.length === 0 && (
+                                    <tr>
+                                        <td colSpan={5} className="px-8 py-24 text-center">
+                                            <p className="text-sm font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest italic">Hall is currently empty. Deployment pending.</p>
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div className="mt-12 text-center">
+                    <Link href="/dashboard" className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400 hover:gap-4 transition-all">
+                        Initiate Self-Evaluation <ArrowUpRight className="h-4 w-4" />
+                    </Link>
                 </div>
             </main>
         </div>

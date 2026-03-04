@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Plus, Trash2, Edit3, ChevronLeft, LayoutGrid, Layers, Loader2 } from "lucide-react";
 
 export default function QuizManagement() {
     const router = useRouter();
@@ -23,70 +24,91 @@ export default function QuizManagement() {
     }, []);
 
     const handleDelete = async (id: number) => {
-        if (!confirm("Are you sure you want to delete this quiz? This will also remove all associated results.")) return;
+        if (!confirm("Are you sure you want to delete this knowledge cluster? This operation is irreversible.")) return;
 
         const res = await fetch(`/api/admin/quizzes/${id}`, { method: "DELETE" });
         if (res.ok) {
             setQuizzes(quizzes.filter(q => q.id !== id));
         } else {
-            alert("Delete failed.");
+            alert("Protocol failure: Delete command rejected.");
         }
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col">
-            <header className="bg-white border-b border-gray-200">
-                <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <Link href="/admin/dashboard" className="text-gray-400 hover:text-gray-600">←</Link>
-                        <h1 className="text-2xl font-bold text-gray-900">Quiz Management</h1>
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-24 transition-colors duration-500">
+            <main className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 w-full">
+                <div className="mb-16 flex flex-col sm:flex-row items-center justify-between gap-8">
+                    <div className="flex items-center gap-6">
+                        <Link href="/admin/dashboard" className="p-4 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 text-slate-400 dark:text-slate-500 hover:text-indigo-600 transition-all">
+                            <ChevronLeft className="h-6 w-6" />
+                        </Link>
+                        <div>
+                            <h1 className="text-5xl font-black text-slate-900 dark:text-white tracking-tighter leading-none">Catalog <br />Terminal</h1>
+                            <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.35em] mt-4 italic">Registry of available knowledge modules</p>
+                        </div>
                     </div>
-                    {/* Placeholder for Add New button */}
-                    <button className="bg-indigo-600 text-white px-4 py-2 rounded-xl font-bold text-sm shadow-lg shadow-indigo-100 hover:bg-indigo-500 transition-all">
-                        + New Quiz
+                    <button className="w-full sm:w-auto flex items-center justify-center gap-3 bg-indigo-600 text-white px-10 py-6 rounded-[2.5rem] font-black text-sm shadow-2xl shadow-indigo-100 dark:shadow-none hover:bg-indigo-500 transition-all hover:-translate-y-2 active:scale-95">
+                        <Plus className="h-5 w-5" /> New knowledge Module
                     </button>
                 </div>
-            </header>
 
-            <main className="flex-1 mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 w-full">
-                <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
-                            <tr>
-                                <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">Title</th>
-                                <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">Category</th>
-                                <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">Questions</th>
-                                <th className="px-6 py-4 text-right text-xs font-bold text-gray-400 uppercase tracking-widest">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200">
-                            {loading ? (
-                                <tr><td colSpan={4} className="px-6 py-12 text-center text-gray-400 italic">Loading...</td></tr>
-                            ) : quizzes.map((quiz) => (
-                                <tr key={quiz.id} className="hover:bg-gray-50/50 transition-colors">
-                                    <td className="px-6 py-5 whitespace-nowrap">
-                                        <div className="text-sm font-bold text-gray-900">{quiz.title}</div>
-                                        <div className="text-xs text-gray-500 uppercase tracking-tighter">{quiz.difficulty}</div>
-                                    </td>
-                                    <td className="px-6 py-5 whitespace-nowrap">
-                                        <span className="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-[10px] font-bold uppercase">{quiz.category}</span>
-                                    </td>
-                                    <td className="px-6 py-5 whitespace-nowrap">
-                                        <div className="text-sm font-medium text-gray-900">{quiz.question_count}</div>
-                                    </td>
-                                    <td className="px-6 py-5 whitespace-nowrap text-right space-x-3">
-                                        <button className="text-indigo-600 hover:text-indigo-900 text-sm font-bold">Edit</button>
-                                        <button
-                                            onClick={() => handleDelete(quiz.id)}
-                                            className="text-red-600 hover:text-red-900 text-sm font-bold"
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
+                <div className="bg-white dark:bg-slate-900 rounded-[3rem] shadow-3xl border border-slate-100 dark:border-slate-800 overflow-hidden">
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full divide-y divide-slate-100 dark:divide-slate-800">
+                            <thead className="bg-slate-50/50 dark:bg-slate-800/50">
+                                <tr>
+                                    <th className="px-10 py-8 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Deployment</th>
+                                    <th className="px-10 py-8 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Category</th>
+                                    <th className="px-10 py-8 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Modules</th>
+                                    <th className="px-10 py-8 text-right text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Link Actions</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
+                                {loading ? (
+                                    <tr>
+                                        <td colSpan={4} className="px-10 py-32 text-center text-slate-400 dark:text-slate-600 italic">
+                                            <Loader2 className="h-10 w-10 animate-spin mx-auto mb-4" />
+                                            Scanning registry...
+                                        </td>
+                                    </tr>
+                                ) : quizzes.map((quiz) => (
+                                    <tr key={quiz.id} className="group hover:bg-indigo-50/30 dark:hover:bg-indigo-500/5 transition-all duration-300">
+                                        <td className="px-10 py-10 whitespace-nowrap">
+                                            <div className="flex items-center gap-6">
+                                                <div className="h-14 w-14 rounded-2xl bg-slate-900 dark:bg-slate-800 flex items-center justify-center text-sm font-black text-white group-hover:bg-indigo-600 transition-colors">
+                                                    <LayoutGrid className="h-6 w-6" />
+                                                </div>
+                                                <div>
+                                                    <div className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">{quiz.title}</div>
+                                                    <div className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mt-1 italic">{quiz.difficulty}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-10 py-10 whitespace-nowrap">
+                                            <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">{quiz.category}</span>
+                                        </td>
+                                        <td className="px-10 py-10 whitespace-nowrap">
+                                            <div className="flex items-center gap-2 text-slate-900 dark:text-white">
+                                                <Layers className="h-4 w-4 text-slate-300 dark:text-slate-600" />
+                                                <div className="text-base font-black tabular-nums">{quiz.question_count}</div>
+                                            </div>
+                                        </td>
+                                        <td className="px-10 py-10 whitespace-nowrap text-right space-x-6">
+                                            <button className="text-slate-400 dark:text-slate-600 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                                                <Edit3 className="h-6 w-6" />
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(quiz.id)}
+                                                className="text-slate-400 dark:text-slate-600 hover:text-rose-600 dark:hover:text-rose-500 transition-colors"
+                                            >
+                                                <Trash2 className="h-6 w-6" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </main>
         </div>
