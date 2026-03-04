@@ -12,8 +12,8 @@ async function getResult(id: string) {
     return data[0];
 }
 
-export default async function ResultsPage({ params }: { params: { id: string } }) {
-    const id = params.id;
+export default async function ResultsPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
     const result = await getResult(id);
 
     if (!result) return <div>Result not found</div>;
