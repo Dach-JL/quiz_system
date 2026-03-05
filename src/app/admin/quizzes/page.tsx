@@ -43,12 +43,12 @@ export default function QuizManagement() {
                             <ChevronLeft className="h-6 w-6" />
                         </Link>
                         <div>
-                            <h1 className="text-5xl font-black text-slate-900 dark:text-white tracking-tighter leading-none">Catalog <br />Terminal</h1>
-                            <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.35em] mt-4 italic">Registry of available knowledge modules</p>
+                            <h1 className="text-5xl font-black text-slate-900 dark:text-white tracking-tighter leading-none">Quiz <br />Management</h1>
+                            <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.35em] mt-4 italic">All available quizzes</p>
                         </div>
                     </div>
                     <Link href="/admin/quizzes/new" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-indigo-600 text-white px-7 py-3.5 rounded-2xl font-black text-sm shadow-2xl shadow-indigo-100 dark:shadow-none hover:bg-indigo-500 transition-all hover:-translate-y-1 active:scale-95">
-                        <Plus className="h-5 w-5" /> New knowledge Module
+                        <Plus className="h-5 w-5" /> New Quiz
                     </Link>
                 </div>
 
@@ -57,10 +57,10 @@ export default function QuizManagement() {
                         <table className="min-w-full divide-y divide-slate-100 dark:divide-slate-800">
                             <thead className="bg-slate-50/50 dark:bg-slate-800/50">
                                 <tr>
-                                    <th className="px-8 py-6 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Deployment</th>
+                                    <th className="px-8 py-6 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Title</th>
                                     <th className="px-8 py-6 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Category</th>
-                                    <th className="px-8 py-6 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Modules</th>
-                                    <th className="px-8 py-6 text-right text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Link Actions</th>
+                                    <th className="px-8 py-6 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Questions</th>
+                                    <th className="px-8 py-6 text-right text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50 dark:divide-slate-800">

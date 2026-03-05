@@ -31,7 +31,7 @@ export default function LoginPage() {
                 setError(data.error || "Authentication failed.");
             }
         } catch (err) {
-            setError("Protocol failure. Check network uplink.");
+            setError("Connection failed. Please check your network.");
         } finally {
             setLoading(false);
         }
@@ -45,7 +45,7 @@ export default function LoginPage() {
                         <BrainCircuit className="h-6 w-6" />
                     </div>
                     <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-none mb-3">Welcome <br />Back.</h1>
-                    <p className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest italic leading-none underline decoration-indigo-500/20 underline-offset-4">Access your personalized learning terminal</p>
+                    <p className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest italic leading-none underline decoration-indigo-500/20 underline-offset-4">Sign in to your account</p>
                 </div>
 
                 <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl shadow-[0_40px_100px_rgba(0,0,0,0.06)] dark:shadow-none border border-slate-100 dark:border-slate-800">
@@ -57,14 +57,14 @@ export default function LoginPage() {
                         )}
 
                         <div className="space-y-3">
-                            <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2">Uplink Email</label>
+                            <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2">Email</label>
                             <div className="relative group">
                                 <Mail className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 dark:text-slate-600 group-focus-within:text-indigo-600 transition-colors" />
                                 <input
                                     type="email"
                                     required
                                     className="w-full pl-12 pr-6 py-3.5 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-xl focus:border-indigo-600 dark:focus:border-indigo-500 transition-all outline-none font-bold text-slate-900 dark:text-white text-sm"
-                                    placeholder="node@nexus.com"
+                                    placeholder="you@example.com"
                                     value={formData.email}
                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                 />
@@ -72,7 +72,7 @@ export default function LoginPage() {
                         </div>
 
                         <div className="space-y-3">
-                            <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2">Security Key</label>
+                            <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2">Password</label>
                             <div className="relative group">
                                 <Lock className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 dark:text-slate-600 group-focus-within:text-indigo-600 transition-colors" />
                                 <input
@@ -92,13 +92,13 @@ export default function LoginPage() {
                             className="w-full flex items-center justify-center gap-3 bg-indigo-600 text-white py-3.5 rounded-2xl font-black text-sm shadow-2xl shadow-indigo-100 dark:shadow-none hover:bg-indigo-500 hover:-translate-y-1 active:scale-95 disabled:bg-slate-400 transition-all"
                         >
                             {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <LogIn className="h-5 w-5" />}
-                            {loading ? "Decrypting..." : "Initialize Session"}
+                            {loading ? "Signing in..." : "Sign In"}
                         </button>
                     </form>
 
                     <div className="mt-12 text-center">
                         <p className="text-sm font-bold text-slate-400 dark:text-slate-500 italic">
-                            New Node? <Link href="/register" className="text-indigo-600 dark:text-indigo-400 hover:underline font-black not-italic ml-2">Register Identity <ArrowRight className="inline h-3 w-3 ml-1" /></Link>
+                            Don't have an account? <Link href="/register" className="text-indigo-600 dark:text-indigo-400 hover:underline font-black not-italic ml-2">Sign Up <ArrowRight className="inline h-3 w-3 ml-1" /></Link>
                         </p>
                     </div>
                 </div>

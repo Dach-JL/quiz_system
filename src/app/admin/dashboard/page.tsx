@@ -119,7 +119,7 @@ export default async function AdminDashboard() {
                             ))}
                             {recentActivity.length === 0 && (
                                 <li className="p-24 text-center">
-                                    <p className="text-sm font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest italic leading-relaxed">System idle. No incoming data streams.</p>
+                                    <p className="text-sm font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest italic leading-relaxed">No recent activity yet.</p>
                                 </li>
                             )}
                         </ul>
@@ -129,15 +129,15 @@ export default async function AdminDashboard() {
                     <div className="lg:col-span-2 space-y-12">
                         <div className="bg-indigo-950 dark:bg-indigo-600 rounded-[4rem] p-12 text-white shadow-3xl relative overflow-hidden group">
                             <div className="absolute -bottom-20 -right-20 h-64 w-64 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
-                            <h3 className="text-3xl font-black mb-6 tracking-tight leading-none">Catalog Sync</h3>
+                            <h3 className="text-3xl font-black mb-6 tracking-tight leading-none">Quiz Management</h3>
                             <p className="text-base font-bold text-indigo-200/80 mb-12 italic leading-relaxed">
-                                Deploy new knowledge clusters or calibrate existing evaluation modules to optimize student ROI.
+                                Create new quizzes or edit existing ones to keep your content fresh and engaging.
                             </p>
                             <Link
                                 href="/admin/quizzes"
                                 className="block w-full text-center bg-white text-indigo-950 py-6 rounded-[2rem] font-black text-base hover:bg-indigo-50 transition-all hover:-translate-y-2 active:scale-95 shadow-2xl"
                             >
-                                Enter Management Hub
+                                Manage Quizzes
                             </Link>
                         </div>
 
@@ -150,8 +150,8 @@ export default async function AdminDashboard() {
                                 {topPerformers.map((p: any, i: number) => (
                                     <li key={i} className="flex items-center gap-5">
                                         <span className={`h-10 w-10 rounded-full flex items-center justify-center font-black text-sm ${i === 0 ? 'bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400' :
-                                                i === 1 ? 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400' :
-                                                    'bg-orange-50 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400'
+                                            i === 1 ? 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400' :
+                                                'bg-orange-50 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400'
                                             }`}>
                                             {i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'}
                                         </span>

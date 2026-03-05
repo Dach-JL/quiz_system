@@ -69,10 +69,10 @@ export default function NewQuizPage() {
                 router.refresh();
             } else {
                 const data = await res.json();
-                setError(data.error || "Failed to deploy knowledge cluster.");
+                setError(data.error || "Failed to create quiz.");
             }
         } catch (err) {
-            setError("Network failure: Protocol interrupted.");
+            setError("Network error. Please try again.");
         } finally {
             setLoading(false);
         }
@@ -86,8 +86,8 @@ export default function NewQuizPage() {
                         <ChevronLeft className="h-6 w-6" />
                     </Link>
                     <div>
-                        <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter leading-none uppercase">Deploy <br />Module</h1>
-                        <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.35em] mt-4 italic">Initialize new knowledge cluster</p>
+                        <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter leading-none uppercase">New <br />Quiz</h1>
+                        <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.35em] mt-4 italic">Create a new quiz</p>
                     </div>
                 </div>
 
@@ -103,12 +103,12 @@ export default function NewQuizPage() {
                     <div className="bg-white dark:bg-slate-900 p-10 rounded-[3rem] shadow-2xl border border-slate-100 dark:border-slate-800 space-y-8">
                         <div className="flex items-center gap-4 mb-4">
                             <BookOpen className="h-6 w-6 text-indigo-600" />
-                            <h2 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">Core Metadata</h2>
+                            <h2 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">Quiz Details</h2>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2">Module Title</label>
+                                <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2">Title</label>
                                 <input
                                     required
                                     name="title"
@@ -139,22 +139,22 @@ export default function NewQuizPage() {
                                 value={quizData.description}
                                 onChange={handleQuizChange}
                                 rows={3}
-                                placeholder="Cluster brief..."
+                                placeholder="Brief description of the quiz..."
                                 className="w-full bg-slate-50 dark:bg-slate-800/50 border-2 border-transparent focus:border-indigo-600 outline-none p-5 rounded-2xl text-slate-900 dark:text-white font-bold transition-all resize-none"
                             />
                         </div>
 
                         <div className="space-y-3">
-                            <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2">Difficulty Calibration</label>
+                            <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2">Difficulty</label>
                             <select
                                 name="difficulty"
                                 value={quizData.difficulty}
                                 onChange={handleQuizChange}
                                 className="w-full bg-slate-50 dark:bg-slate-800/50 border-2 border-transparent focus:border-indigo-600 outline-none p-5 rounded-2xl text-slate-900 dark:text-white font-bold transition-all appearance-none"
                             >
-                                <option value="Beginner">Level: Beginner</option>
-                                <option value="Intermediate">Level: Intermediate</option>
-                                <option value="Advanced">Level: Advanced</option>
+                                <option value="Beginner">Beginner</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Advanced">Advanced</option>
                             </select>
                         </div>
                     </div>
@@ -162,13 +162,13 @@ export default function NewQuizPage() {
                     {/* Questions */}
                     <div className="space-y-8">
                         <div className="flex items-center justify-between px-4">
-                            <h2 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">Evaluative Nodes</h2>
+                            <h2 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">Questions</h2>
                             <button
                                 type="button"
                                 onClick={addQuestion}
                                 className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-black text-[10px] uppercase tracking-widest hover:translate-x-1 transition-transform"
                             >
-                                <Plus className="h-4 w-4" /> Expand Matrix
+                                <Plus className="h-4 w-4" /> Add Question
                             </button>
                         </div>
 
@@ -185,12 +185,12 @@ export default function NewQuizPage() {
                                 </div>
                                 <div className="flex items-center gap-4 mb-10">
                                     <span className="h-10 w-10 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 flex items-center justify-center font-black tabular-nums">{qIndex + 1}</span>
-                                    <h3 className="text-sm font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest italic">Node Sequence</h3>
+                                    <h3 className="text-sm font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest italic">Question {qIndex + 1}</h3>
                                 </div>
 
                                 <div className="space-y-8">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2">Inquiry Text</label>
+                                        <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2">Question Text</label>
                                         <input
                                             required
                                             value={q.question_text}
@@ -237,12 +237,12 @@ export default function NewQuizPage() {
                             {loading ? (
                                 <>
                                     <Loader2 className="h-6 w-6 animate-spin" />
-                                    DEPLOYING DATA...
+                                    Saving...
                                 </>
                             ) : (
                                 <>
                                     <Save className="h-6 w-6" />
-                                    FINALIZE DEPLOYMENT
+                                    Save Quiz
                                 </>
                             )}
                         </button>

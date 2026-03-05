@@ -50,10 +50,10 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
                     });
                     setQuestions(data.questions);
                 } else {
-                    setError("Failed to retrieve knowledge cluster.");
+                    setError("Failed to load quiz.");
                 }
             } catch (err) {
-                setError("Protocol failure: Connection lost.");
+                setError("Connection failed. Please try again.");
             } finally {
                 setLoading(false);
             }
@@ -110,10 +110,10 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
                 router.refresh();
             } else {
                 const data = await res.json();
-                setError(data.error || "Failed to recalibrate knowledge cluster.");
+                setError(data.error || "Failed to update quiz.");
             }
         } catch (err) {
-            setError("Network failure: Protocol interrupted.");
+            setError("Network error. Please try again.");
         } finally {
             setSubmitting(false);
         }
@@ -138,8 +138,8 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
                         <ChevronLeft className="h-6 w-6" />
                     </Link>
                     <div>
-                        <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter leading-none uppercase">Recalibrate <br />Module</h1>
-                        <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.35em] mt-4 italic">Update existing knowledge cluster</p>
+                        <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter leading-none uppercase">Edit <br />Quiz</h1>
+                        <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.35em] mt-4 italic">Update quiz details</p>
                     </div>
                 </div>
 
@@ -155,12 +155,12 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
                     <div className="bg-white dark:bg-slate-900 p-10 rounded-[3rem] shadow-2xl border border-slate-100 dark:border-slate-800 space-y-8">
                         <div className="flex items-center gap-4 mb-4">
                             <RefreshCw className="h-6 w-6 text-indigo-600" />
-                            <h2 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">Sync metadata</h2>
+                            <h2 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">Quiz Details</h2>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2">Module Title</label>
+                                <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2">Title</label>
                                 <input
                                     required
                                     name="title"
@@ -194,7 +194,7 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
                         </div>
 
                         <div className="space-y-3">
-                            <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2">Difficulty Calibration</label>
+                            <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2">Difficulty</label>
                             <select
                                 name="difficulty"
                                 value={quizData.difficulty}
@@ -211,13 +211,13 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
                     {/* Questions */}
                     <div className="space-y-8">
                         <div className="flex items-center justify-between px-4">
-                            <h2 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">Evaluative Nodes</h2>
+                            <h2 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">Questions</h2>
                             <button
                                 type="button"
                                 onClick={addQuestion}
                                 className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-black text-[10px] uppercase tracking-widest hover:translate-x-1 transition-transform"
                             >
-                                <Plus className="h-4 w-4" /> Expand Matrix
+                                <Plus className="h-4 w-4" /> Add Question
                             </button>
                         </div>
 
@@ -234,12 +234,12 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
                                 </div>
                                 <div className="flex items-center gap-4 mb-10">
                                     <span className="h-10 w-10 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 flex items-center justify-center font-black tabular-nums">{qIndex + 1}</span>
-                                    <h3 className="text-sm font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest italic">Node Sequence</h3>
+                                    <h3 className="text-sm font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest italic">Question {qIndex + 1}</h3>
                                 </div>
 
                                 <div className="space-y-8">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2">Inquiry Text</label>
+                                        <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2">Question Text</label>
                                         <input
                                             required
                                             value={q.question_text}
@@ -284,12 +284,12 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
                             {submitting ? (
                                 <>
                                     <Loader2 className="h-6 w-6 animate-spin" />
-                                    SYNCING DATA...
+                                    Saving...
                                 </>
                             ) : (
                                 <>
                                     <Save className="h-6 w-6" />
-                                    APPLY RECALIBRATION
+                                    Save Changes
                                 </>
                             )}
                         </button>

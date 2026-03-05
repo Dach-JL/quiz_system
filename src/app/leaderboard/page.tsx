@@ -30,9 +30,9 @@ export default async function LeaderboardPage() {
                     <div className="inline-flex p-4 bg-indigo-600 rounded-[2rem] text-white shadow-2xl mb-8">
                         <Trophy className="h-8 w-8" />
                     </div>
-                    <h1 className="text-5xl font-black text-slate-900 dark:text-white tracking-tighter leading-none mb-6">Hall of Elite</h1>
+                    <h1 className="text-5xl font-black text-slate-900 dark:text-white tracking-tighter leading-none mb-6">Leaderboard</h1>
                     <p className="text-base font-bold text-slate-500 dark:text-slate-400 italic max-w-lg mx-auto underline decoration-indigo-500/20 underline-offset-8">
-                        Only the top 1% of cognitive performers achieve status here.
+                        Top scorers across all quizzes. Can you make it to the top?
                     </p>
                 </div>
 
@@ -42,10 +42,10 @@ export default async function LeaderboardPage() {
                             <thead className="bg-slate-50/80 dark:bg-slate-800/50 backdrop-blur-sm">
                                 <tr>
                                     <th scope="col" className="px-8 py-6 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Rank</th>
-                                    <th scope="col" className="px-8 py-6 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">User Node</th>
-                                    <th scope="col" className="px-8 py-6 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Module</th>
+                                    <th scope="col" className="px-8 py-6 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">User</th>
+                                    <th scope="col" className="px-8 py-6 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Quiz</th>
                                     <th scope="col" className="px-8 py-6 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Score</th>
-                                    <th scope="col" className="px-8 py-6 text-right text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Efficiency</th>
+                                    <th scope="col" className="px-8 py-6 text-right text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Percentage</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50 dark:divide-slate-800 bg-white dark:bg-transparent">
@@ -88,7 +88,7 @@ export default async function LeaderboardPage() {
                                 {rankings.length === 0 && (
                                     <tr>
                                         <td colSpan={5} className="px-8 py-24 text-center">
-                                            <p className="text-sm font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest italic">Hall is currently empty. Deployment pending.</p>
+                                            <p className="text-sm font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest italic">No results yet. Be the first to take a quiz!</p>
                                         </td>
                                     </tr>
                                 )}
@@ -99,7 +99,7 @@ export default async function LeaderboardPage() {
 
                 <div className="mt-12 text-center">
                     <Link href="/dashboard" className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400 hover:gap-4 transition-all">
-                        Initiate Self-Evaluation <ArrowUpRight className="h-4 w-4" />
+                        Take a Quiz <ArrowUpRight className="h-4 w-4" />
                     </Link>
                 </div>
             </main>
