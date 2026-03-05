@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import Link from "next/link";
 import sql from "@/lib/db";
-import { Users, BookOpen, Activity, TrendingUp, ArrowUpRight, Zap, Target } from "lucide-react";
+import { Users, BookOpen, Activity, TrendingUp, ArrowUpRight, Zap, Trophy } from "lucide-react";
 
 async function getAdminData() {
     const stats = await sql`
@@ -23,8 +23,17 @@ async function getAdminData() {
         ORDER BY r.completed_at DESC
         LIMIT 5
     `;
+    const topPerformers = await sql`
+        SELECT u.name, COUNT(r.id) as quizzes_taken, 
+               ROUND(AVG(r.score * 100.0 / NULLIF(r.total_questions, 0))::numeric, 1) as avg_percent
+        FROM results r
+        JOIN users u ON r.user_id = u.id
+        GROUP BY u.id, u.name
+        ORDER BY avg_percent DESC
+        LIMIT 3
+    `;
 
-    return { stats: stats[0], recentActivity: activities };
+    return { stats: stats[0], recentActivity: activities, topPerformers };
 }
 
 export default async function AdminDashboard() {
@@ -33,7 +42,7 @@ export default async function AdminDashboard() {
         redirect("/dashboard");
     }
 
-    const { stats, recentActivity } = await getAdminData();
+    const { stats, recentActivity, topPerformers } = await getAdminData();
 
     const statCards = [
         { name: 'Total Users', value: stats.total_users, icon: <Users />, color: 'bg-blue-50 text-blue-700 dark:bg-blue-400/10 dark:text-blue-200' },
@@ -132,12 +141,33 @@ export default async function AdminDashboard() {
                             </Link>
                         </div>
 
-                        <div className="bg-white dark:bg-slate-900 rounded-[4rem] border-[6px] border-dashed border-slate-100 dark:border-slate-800 p-12 text-center transition-all hover:border-indigo-600/20">
-                            <div className="h-20 w-20 bg-emerald-50 dark:bg-emerald-500/10 rounded-[1.5rem] flex items-center justify-center mx-auto mb-8">
-                                <Target className="h-10 w-10 text-emerald-600 dark:text-emerald-400" />
+                        <div className="bg-white dark:bg-slate-900 rounded-[4rem] border border-slate-100 dark:border-slate-800 p-12 shadow-2xl">
+                            <div className="flex items-center gap-3 mb-8">
+                                <Trophy className="h-5 w-5 text-amber-500" />
+                                <h4 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-[0.05em]">Top Performers</h4>
                             </div>
-                            <h4 className="text-2xl font-black text-slate-900 dark:text-white mb-4 tracking-tighter uppercase leading-none">Performance engine</h4>
-                            <p className="text-sm text-slate-500 dark:text-slate-400 font-bold italic leading-relaxed max-w-[200px] mx-auto">Neural processing at 99.9% precision.</p>
+                            <ul className="space-y-6">
+                                {topPerformers.map((p: any, i: number) => (
+                                    <li key={i} className="flex items-center gap-5">
+                                        <span className={`h-10 w-10 rounded-full flex items-center justify-center font-black text-sm ${i === 0 ? 'bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400' :
+                                                i === 1 ? 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400' :
+                                                    'bg-orange-50 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400'
+                                            }`}>
+                                            {i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'}
+                                        </span>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight truncate">{p.name}</p>
+                                            <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 italic">{p.quizzes_taken} quizzes taken</p>
+                                        </div>
+                                        <span className="text-lg font-black text-indigo-600 dark:text-indigo-400 tabular-nums">{p.avg_percent}%</span>
+                                    </li>
+                                ))}
+                                {topPerformers.length === 0 && (
+                                    <li className="text-center py-6">
+                                        <p className="text-sm font-bold text-slate-400 dark:text-slate-600 italic">No data yet.</p>
+                                    </li>
+                                )}
+                            </ul>
                         </div>
                     </div>
                 </div>

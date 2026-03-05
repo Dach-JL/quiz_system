@@ -1,6 +1,6 @@
 import Link from "next/link";
 import sql from "@/lib/db";
-import { BrainCircuit, Timer, Trophy } from "lucide-react";
+import { BrainCircuit, Trophy } from "lucide-react";
 
 async function getQuizzes() {
     const data = await sql`
@@ -18,26 +18,6 @@ export default async function DashboardPage() {
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-24 transition-colors duration-500">
             <main className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-                <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
-                    <div>
-                        <div className="flex items-center gap-2 mb-4">
-                            <div className="h-1 w-12 bg-indigo-600 rounded-full"></div>
-                            <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Knowledge Clusters</span>
-                        </div>
-                        <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter leading-none">Command Center</h1>
-                    </div>
-                    <div className="flex gap-4">
-                        <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl flex items-center gap-4">
-                            <div className="p-3 bg-emerald-50 dark:bg-emerald-500/10 rounded-2xl text-emerald-600 dark:text-emerald-400">
-                                <Timer className="h-6 w-6" />
-                            </div>
-                            <div>
-                                <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">Active Time</p>
-                                <p className="text-xl font-black text-slate-900 dark:text-white">12.5h</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
                     {quizzes.map((quiz: any) => (
