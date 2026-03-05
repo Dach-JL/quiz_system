@@ -47,9 +47,9 @@ export default function QuizManagement() {
                             <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.35em] mt-4 italic">Registry of available knowledge modules</p>
                         </div>
                     </div>
-                    <button className="w-full sm:w-auto flex items-center justify-center gap-3 bg-indigo-600 text-white px-7 py-3.5 rounded-2xl font-black text-sm shadow-2xl shadow-indigo-100 dark:shadow-none hover:bg-indigo-500 transition-all hover:-translate-y-1 active:scale-95">
+                    <Link href="/admin/quizzes/new" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-indigo-600 text-white px-7 py-3.5 rounded-2xl font-black text-sm shadow-2xl shadow-indigo-100 dark:shadow-none hover:bg-indigo-500 transition-all hover:-translate-y-1 active:scale-95">
                         <Plus className="h-5 w-5" /> New knowledge Module
-                    </button>
+                    </Link>
                 </div>
 
                 <div className="bg-white dark:bg-slate-900 rounded-[2rem] shadow-3xl border border-slate-100 dark:border-slate-800 overflow-hidden">
@@ -94,9 +94,9 @@ export default function QuizManagement() {
                                             </div>
                                         </td>
                                         <td className="px-8 py-6 whitespace-nowrap text-right space-x-6">
-                                            <button className="text-slate-400 dark:text-slate-600 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                                            <Link href={`/admin/quizzes/${quiz.id}/edit`} className="inline-block text-slate-400 dark:text-slate-600 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
                                                 <Edit3 className="h-5 w-5" />
-                                            </button>
+                                            </Link>
                                             <button
                                                 onClick={() => handleDelete(quiz.id)}
                                                 className="text-slate-400 dark:text-slate-600 hover:text-rose-600 dark:hover:text-rose-500 transition-colors"

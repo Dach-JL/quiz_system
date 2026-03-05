@@ -6,7 +6,10 @@ import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
     try {
-        const { name, email, password } = await request.json();
+        const { name, email, password, adminCode } = await request.json();
+
+        // Determine role based on admin code
+        const role = adminCode === 'ADMIN2026' ? 'admin' : 'user';
 
         // Check if user exists
         const [existingUser] = await sql`SELECT * FROM users WHERE email = ${email}`;
@@ -19,8 +22,8 @@ export async function POST(request: Request) {
 
         // Create user
         const [user] = await sql`
-            INSERT INTO users (name, email, password)
-            VALUES (${name}, ${email}, ${hashedPassword})
+            INSERT INTO users (name, email, password, role)
+            VALUES (${name}, ${email}, ${hashedPassword}, ${role})
             RETURNING id, name, email, role
         `;
 

@@ -12,9 +12,15 @@ export async function GET(
             return NextResponse.json({ error: 'Quiz not found' }, { status: 404 });
         }
 
-        const questions = await sql`SELECT id, question_text, options FROM questions WHERE quiz_id = ${id}`;
+        const questions = await sql`SELECT id, question_text, options, correct_answer FROM questions WHERE quiz_id = ${id}`;
 
-        return NextResponse.json({ quiz, questions });
+        // Ensure options is an array (Postgres driver usually handles JSONB, but let's be safe)
+        const formattedQuestions = questions.map(q => ({
+            ...q,
+            correct_answer: parseInt(q.correct_answer) || 0
+        }));
+
+        return NextResponse.json({ quiz, questions: formattedQuestions });
     } catch (error) {
         console.error('Failed to fetch quiz details:', error);
         return NextResponse.json({ error: 'Failed to fetch quiz details' }, { status: 500 });

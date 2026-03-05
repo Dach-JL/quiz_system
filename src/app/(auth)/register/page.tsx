@@ -3,11 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { UserPlus, Mail, Lock, User, Loader2, ArrowRight, BrainCircuit } from "lucide-react";
+import { UserPlus, Mail, Lock, User, Loader2, ArrowRight, BrainCircuit, ShieldCheck } from "lucide-react";
 
 export default function RegisterPage() {
     const router = useRouter();
-    const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+    const [formData, setFormData] = useState({ name: "", email: "", password: "", adminCode: "" });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -97,6 +97,20 @@ export default function RegisterPage() {
                                     placeholder="••••••••"
                                     value={formData.password}
                                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="space-y-3">
+                            <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2">Admin Access Code <span className="text-slate-300 dark:text-slate-700">(optional)</span></label>
+                            <div className="relative group">
+                                <ShieldCheck className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 dark:text-slate-600 group-focus-within:text-indigo-600 transition-colors" />
+                                <input
+                                    type="password"
+                                    className="w-full pl-12 pr-6 py-3.5 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-xl focus:border-indigo-600 dark:focus:border-indigo-500 transition-all outline-none font-bold text-slate-900 dark:text-white text-sm"
+                                    placeholder="Leave empty for regular user"
+                                    value={formData.adminCode}
+                                    onChange={(e) => setFormData({ ...formData, adminCode: e.target.value })}
                                 />
                             </div>
                         </div>
