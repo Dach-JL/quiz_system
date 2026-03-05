@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";
 import { Menu, X, BrainCircuit, ShieldAlert } from "lucide-react";
 
@@ -10,6 +10,14 @@ export function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [user, setUser] = useState<any>(null);
     const pathname = usePathname();
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        await fetch("/api/auth/logout");
+        setUser(null);
+        router.push("/login");
+        router.refresh();
+    };
 
     useEffect(() => {
         const fetchSession = async () => {
@@ -20,11 +28,11 @@ export function Navbar() {
                     setUser(data.user);
                 }
             } catch (error) {
-                console.error("Failed to fetch session", error);
+                setUser(null);
             }
         };
         fetchSession();
-    }, []);
+    }, [pathname]);
 
     return (
         <nav className="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md">
@@ -65,7 +73,9 @@ export function Navbar() {
                         ) : (
                             <div className="flex items-center gap-4">
                                 <span className="text-xs font-bold text-slate-500 italic">Logged in as {user.name}</span>
-                                <Link href="/api/auth/logout" className="text-xs font-black uppercase tracking-widest text-slate-400 hover:text-indigo-600">Sign Out</Link>
+                                <button onClick={handleLogout} className="text-xs font-black uppercase tracking-widest text-slate-400 hover:text-indigo-600 cursor-pointer">
+                                    Sign Out
+                                </button>
                             </div>
                         )}
                     </div>
@@ -104,7 +114,9 @@ export function Navbar() {
                                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Active Session</p>
                                 <p className="text-sm font-black text-slate-900 dark:text-white">{user.name}</p>
                             </div>
-                            <Link href="/api/auth/logout" onClick={() => setIsOpen(false)} className="block w-full py-4 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-2xl text-center font-black">Sign Out</Link>
+                            <button onClick={() => { setIsOpen(false); handleLogout(); }} className="block w-full py-4 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-2xl text-center font-black cursor-pointer">
+                                Sign Out
+                            </button>
                         </div>
                     )}
                 </div>
