@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { BrainCircuit, Clock, ChevronLeft, Send, Loader2 } from "lucide-react";
+import { BookOpen, Clock, ChevronLeft, Send, Loader2, CheckCircle2 } from "lucide-react";
 
 export default function QuizPage() {
     const params = useParams();
@@ -13,7 +13,7 @@ export default function QuizPage() {
     const [questions, setQuestions] = useState<any[]>([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState<Record<number, string>>({});
-    const [timeLeft, setTimeLeft] = useState<number | null>(null); // Will be set from quiz.time_limit
+    const [timeLeft, setTimeLeft] = useState<number | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [loading, setLoading] = useState(true);
     const [timeExpired, setTimeExpired] = useState(false);
@@ -25,7 +25,6 @@ export default function QuizPage() {
             const data = await res.json();
             setQuiz(data.quiz);
             setQuestions(data.questions);
-            // Set time limit from database (in seconds), default to 10 minutes if not set
             setTimeLeft(data.quiz.time_limit || 600);
             setLoading(false);
         } catch (error) {
@@ -92,18 +91,17 @@ export default function QuizPage() {
 
     if (loading || timeLeft === null) {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-white dark:bg-slate-950">
+            <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-white to-slate-50 dark:from-slate-950 dark:to-slate-900">
                 <div className="text-center">
-                    <Loader2 className="h-16 w-16 animate-spin text-indigo-600 mx-auto" />
-                    <p className="mt-6 text-slate-500 dark:text-slate-400 font-black uppercase tracking-[0.3em] text-xs">Initializing Session</p>
+                    <Loader2 className="h-12 w-12 animate-spin text-indigo-600 mx-auto" />
+                    <p className="mt-4 text-slate-600 dark:text-slate-400 font-medium">Loading quiz...</p>
                 </div>
             </div>
         );
     }
 
     const currentQuestion = questions[currentQuestionIndex];
-    
-    // Safely get options as an array
+
     const getOptions = () => {
         if (!currentQuestion?.options) return [];
         if (Array.isArray(currentQuestion.options)) return currentQuestion.options;
@@ -116,129 +114,129 @@ export default function QuizPage() {
         }
         return [];
     };
-    
+
     const formatTime = (seconds: number) => {
         const mins = Math.floor(seconds / 60);
         const secs = seconds % 60;
         return `${mins}:${secs.toString().padStart(2, "0")}`;
     };
 
+    const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-12 pb-24 px-4 sm:px-6 lg:px-8 transition-colors duration-500">
-            <div className="mx-auto max-w-4xl">
+        <div className="min-h-screen bg-gradient-to-b from-white to-slate-50 dark:from-slate-950 dark:to-slate-900 py-8 px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-3xl">
                 {/* Time Expired Banner */}
                 {timeExpired && (
-                    <div className="mb-8 bg-rose-50 dark:bg-rose-500/10 border-2 border-rose-200 dark:border-rose-500/20 p-6 rounded-3xl flex items-center gap-4 text-rose-600 dark:text-rose-400 animate-pulse">
-                        <Clock className="h-8 w-8 flex-shrink-0" />
+                    <div className="mb-6 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 p-4 rounded-xl flex items-center gap-3 text-rose-600 dark:text-rose-400">
+                        <Clock className="h-5 w-5 flex-shrink-0" />
                         <div>
-                            <p className="text-lg font-black uppercase tracking-tight">Time's Up!</p>
-                            <p className="text-sm font-bold">Submitting your answers automatically...</p>
+                            <p className="font-semibold">Time's Up!</p>
+                            <p className="text-sm">Submitting your answers...</p>
                         </div>
                     </div>
                 )}
 
                 {/* Header Card */}
-                <div className="mb-12 flex flex-col sm:flex-row items-center justify-between bg-white dark:bg-slate-900 p-10 rounded-[3rem] shadow-2xl border border-slate-100 dark:border-slate-800 gap-8">
-                    <div className="flex items-center gap-6">
-                        <div className="p-4 bg-indigo-600 rounded-xl shadow-xl shadow-indigo-100 dark:shadow-none">
-                            <BrainCircuit className="h-7 w-7 text-white" />
+                <div className="mb-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-lg">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div className="flex items-center gap-4">
+                            <div className="p-3 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl shadow-lg shadow-indigo-500/25">
+                                <BookOpen className="h-6 w-6 text-white" />
+                            </div>
+                            <div>
+                                <h1 className="text-xl font-bold text-slate-900 dark:text-white">{quiz?.title}</h1>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">
+                                    Question {currentQuestionIndex + 1} of {questions.length}
+                                </p>
+                            </div>
                         </div>
-                        <div>
-                            <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-none mb-2">{quiz?.title}</h1>
-                            <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">{quiz?.category} <span className="mx-2">•</span> Module {currentQuestionIndex + 1} of {questions.length}</p>
+                        <div className={`flex items-center gap-2 px-4 py-2 rounded-xl border-2 ${timeLeft < 60 ? 'border-rose-500 bg-rose-50 dark:bg-rose-500/10' : 'border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50'}`}>
+                            <Clock className={`h-5 w-5 ${timeLeft < 60 ? 'text-rose-600' : 'text-slate-400'}`} />
+                            <span className={`text-lg font-bold font-mono ${timeLeft < 60 ? 'text-rose-600' : 'text-slate-900 dark:text-white'}`}>
+                                {formatTime(timeLeft)}
+                            </span>
                         </div>
-                    </div>
-                    <div className={`flex flex-col items-center sm:items-end px-8 py-4 rounded-[2rem] border-2 transition-all ${timeLeft < 60 ? 'border-rose-500 bg-rose-50 dark:bg-rose-500/10 animate-pulse' : 'border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50'}`}>
-                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 mb-1 flex items-center gap-1">
-                            <Clock className="h-3 w-3" /> Remaining
-                        </span>
-                        <span className={`text-3xl font-black font-mono tracking-tighter ${timeLeft < 60 ? 'text-rose-600' : 'text-indigo-600 dark:text-indigo-400'}`}>
-                            {formatTime(timeLeft)}
-                        </span>
                     </div>
                 </div>
 
-                {/* Progress Indicators */}
-                <div className="mb-16">
-                    <div className="h-4 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800 p-1">
+                {/* Progress Bar */}
+                <div className="mb-6">
+                    <div className="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                         <div
-                            className="h-full bg-indigo-600 rounded-full shadow-[0_0_20px_rgba(79,70,229,0.5)] transition-all duration-700 ease-out"
-                            style={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
+                            className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full transition-all duration-500"
+                            style={{ width: `${progress}%` }}
                         ></div>
                     </div>
                 </div>
 
-                {/* Question Terminal */}
-                <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-[2.5rem] shadow-[0_40px_100px_rgba(0,0,0,0.05)] dark:shadow-none border border-slate-100 dark:border-slate-800 relative">
-                    <div className="absolute top-0 right-0 p-8">
-                        <span className="text-[5rem] font-black text-slate-100 dark:text-slate-800/30 select-none leading-none -mt-4 -mr-4">
+                {/* Question Card */}
+                <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 sm:p-8 shadow-lg">
+                    <div className="flex items-start justify-between mb-6">
+                        <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white leading-relaxed">
+                            {currentQuestion.question_text}
+                        </h2>
+                        <span className="text-4xl font-bold text-slate-100 dark:text-slate-700 flex-shrink-0 ml-4">
                             {currentQuestionIndex + 1}
                         </span>
                     </div>
 
-                    <div className="relative z-10">
-                        <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mb-12 leading-[1.2] tracking-tight max-w-2xl">
-                            {currentQuestion.question_text}
-                        </h2>
-
-                        <div className="grid grid-cols-1 gap-6">
-                            {getOptions().map((option: string, index: number) => (
-                                <button
-                                    key={index}
-                                    onClick={() => handleAnswerSelect(option)}
-                                    className={`w-full group flex items-center justify-between p-5 rounded-xl border-[3px] transition-all duration-300 ${answers[currentQuestion.id] === option
-                                        ? "border-indigo-600 bg-indigo-50/50 dark:bg-indigo-500/10 shadow-xl shadow-indigo-500/10"
-                                        : "border-slate-100 dark:border-slate-800/50 bg-white dark:bg-slate-800/50 hover:border-indigo-200 dark:hover:border-indigo-500/30 hover:-translate-y-1"
-                                        }`}
-                                >
-                                    <div className="flex items-center gap-6">
-                                        <div className={`h-8 w-8 rounded-lg border-2 flex items-center justify-center text-[10px] font-black transition-colors ${answers[currentQuestion.id] === option
-                                            ? "bg-indigo-600 border-indigo-600 text-white"
-                                            : "border-slate-200 dark:border-slate-700 text-slate-400 dark:text-slate-600 group-hover:border-indigo-400"
-                                            }`}>
-                                            {String.fromCharCode(65 + index)}
-                                        </div>
-                                        <span className={`text-base transition-colors text-left ${answers[currentQuestion.id] === option ? "text-indigo-900 dark:text-indigo-400 font-black" : "text-slate-700 dark:text-slate-400 font-bold"}`}>
-                                            {option}
-                                        </span>
-                                    </div>
-                                    <div className={`h-6 w-6 rounded-full border-[3px] flex items-center justify-center transition-all ${answers[currentQuestion.id] === option ? "border-indigo-600 bg-indigo-600 scale-125" : "border-slate-200 dark:border-slate-700 opacity-20 group-hover:opacity-100"
-                                        }`}>
-                                        {answers[currentQuestion.id] === option && (
-                                            <div className="h-2 w-2 rounded-full bg-white"></div>
-                                        )}
-                                    </div>
-                                </button>
-                            ))}
-                        </div>
-
-                        <div className="mt-20 flex flex-col sm:flex-row items-center justify-between gap-8">
+                    <div className="space-y-3">
+                        {getOptions().map((option: string, index: number) => (
                             <button
-                                disabled={currentQuestionIndex === 0}
-                                onClick={() => setCurrentQuestionIndex(currentQuestionIndex - 1)}
-                                className="flex items-center gap-2 px-6 py-2.5 text-sm font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 disabled:opacity-0 transition-all active:scale-90"
+                                key={index}
+                                onClick={() => handleAnswerSelect(option)}
+                                className={`w-full group flex items-center justify-between p-4 rounded-xl border-2 transition-all ${answers[currentQuestion.id] === option
+                                        ? "border-indigo-600 bg-indigo-50 dark:bg-indigo-500/10 shadow-md shadow-indigo-500/10"
+                                        : "border-slate-200 dark:border-slate-600 hover:border-indigo-300 dark:hover:border-indigo-500/50 hover:bg-slate-50 dark:hover:bg-slate-700/50"
+                                    }`}
                             >
-                                <ChevronLeft className="h-4 w-4" /> Previous Module
+                                <div className="flex items-center gap-4">
+                                    <div className={`h-8 w-8 rounded-lg border-2 flex items-center justify-center text-sm font-bold transition-colors ${answers[currentQuestion.id] === option
+                                            ? "bg-indigo-600 border-indigo-600 text-white"
+                                            : "border-slate-300 dark:border-slate-500 text-slate-500 dark:text-slate-400 group-hover:border-indigo-400"
+                                        }`}>
+                                        {String.fromCharCode(65 + index)}
+                                    </div>
+                                    <span className={`text-left ${answers[currentQuestion.id] === option ? "font-semibold text-indigo-900 dark:text-indigo-400" : "text-slate-700 dark:text-slate-300"
+                                        }`}>
+                                        {option}
+                                    </span>
+                                </div>
+                                {answers[currentQuestion.id] === option && (
+                                    <CheckCircle2 className="h-5 w-5 text-indigo-600" />
+                                )}
                             </button>
+                        ))}
+                    </div>
 
-                            {currentQuestionIndex === questions.length - 1 ? (
-                                <button
-                                    onClick={handleSubmit}
-                                    disabled={isSubmitting}
-                                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-10 py-4 bg-slate-900 dark:bg-indigo-600 text-white rounded-2xl font-black text-base shadow-[0_20px_50px_rgba(0,0,0,0.2)] dark:shadow-none hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-1 active:scale-95 disabled:bg-slate-400 transition-all"
-                                >
-                                    {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
-                                    {isSubmitting ? "Finalizing..." : "Submit Decision"}
-                                </button>
-                            ) : (
-                                <button
-                                    onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)}
-                                    className="w-full sm:w-auto px-10 py-4 bg-indigo-600 text-white rounded-2xl font-black text-base shadow-[0_20px_40px_rgba(79,70,229,0.3)] dark:shadow-none hover:bg-indigo-500 hover:-translate-y-1 active:scale-95 transition-all"
-                                >
-                                    Review Next
-                                </button>
-                            )}
-                        </div>
+                    {/* Navigation */}
+                    <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-slate-200 dark:border-slate-700">
+                        <button
+                            disabled={currentQuestionIndex === 0}
+                            onClick={() => setCurrentQuestionIndex(currentQuestionIndex - 1)}
+                            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                        >
+                            <ChevronLeft className="h-4 w-4" /> Previous
+                        </button>
+
+                        {currentQuestionIndex === questions.length - 1 ? (
+                            <button
+                                onClick={handleSubmit}
+                                disabled={isSubmitting}
+                                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-500 transition-all hover:shadow-lg hover:shadow-indigo-500/25 disabled:bg-slate-400 disabled:cursor-not-allowed"
+                            >
+                                {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
+                                {isSubmitting ? "Submitting..." : "Submit Quiz"}
+                            </button>
+                        ) : (
+                            <button
+                                onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)}
+                                className="w-full sm:w-auto px-6 py-3 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-500 transition-all hover:shadow-lg hover:shadow-indigo-500/25"
+                            >
+                                Next Question
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
