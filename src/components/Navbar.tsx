@@ -13,10 +13,24 @@ export function Navbar() {
     const router = useRouter();
 
     const handleLogout = async () => {
-        await fetch("/api/auth/logout");
-        setUser(null);
-        router.push("/login");
-        router.refresh();
+        try {
+            const response = await fetch("/api/auth/logout", {
+                method: "POST",
+                credentials: "same-origin",
+            });
+            
+            // Clear user state regardless of response
+            setUser(null);
+            
+            // Redirect to login page
+            router.push("/login");
+            router.refresh();
+        } catch (error) {
+            console.error("Logout failed:", error);
+            // Still clear user state and redirect even if API fails
+            setUser(null);
+            router.push("/login");
+        }
     };
 
     useEffect(() => {
