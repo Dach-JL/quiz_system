@@ -102,6 +102,21 @@ export default function QuizPage() {
     }
 
     const currentQuestion = questions[currentQuestionIndex];
+    
+    // Safely get options as an array
+    const getOptions = () => {
+        if (!currentQuestion?.options) return [];
+        if (Array.isArray(currentQuestion.options)) return currentQuestion.options;
+        if (typeof currentQuestion.options === 'string') {
+            try {
+                return JSON.parse(currentQuestion.options);
+            } catch {
+                return [];
+            }
+        }
+        return [];
+    };
+    
     const formatTime = (seconds: number) => {
         const mins = Math.floor(seconds / 60);
         const secs = seconds % 60;
@@ -167,7 +182,7 @@ export default function QuizPage() {
                         </h2>
 
                         <div className="grid grid-cols-1 gap-6">
-                            {currentQuestion.options.map((option: string, index: number) => (
+                            {getOptions().map((option: string, index: number) => (
                                 <button
                                     key={index}
                                     onClick={() => handleAnswerSelect(option)}

@@ -14,11 +14,28 @@ export async function GET(
 
         const questions = await sql`SELECT id, question_text, options, correct_answer FROM questions WHERE quiz_id = ${id}`;
 
-        // Ensure options is an array (Postgres driver usually handles JSONB, but let's be safe)
-        const formattedQuestions = questions.map(q => ({
-            ...q,
-            correct_answer: parseInt(q.correct_answer) || 0
-        }));
+        // Ensure options is always a parsed array and correct_answer is a number
+        const formattedQuestions = questions.map(q => {
+            let parsedOptions = q.options;
+            // Handle case where options might be a JSON string
+            if (typeof q.options === 'string') {
+                try {
+                    parsedOptions = JSON.parse(q.options);
+                } catch {
+                    parsedOptions = [];
+                }
+            }
+            // Ensure it's an array
+            if (!Array.isArray(parsedOptions)) {
+                parsedOptions = [];
+            }
+            
+            return {
+                ...q,
+                options: parsedOptions,
+                correct_answer: parseInt(q.correct_answer) || 0
+            };
+        });
 
         return NextResponse.json({ quiz, questions: formattedQuestions });
     } catch (error) {
