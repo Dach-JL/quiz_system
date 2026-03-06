@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS quizzes (
     description TEXT,
     category TEXT,
     difficulty TEXT, -- 'easy', 'medium', 'hard'
+    time_limit INTEGER DEFAULT 600, -- Time limit in seconds (default 10 minutes)
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -35,5 +36,6 @@ CREATE TABLE IF NOT EXISTS results (
     quiz_id INTEGER REFERENCES quizzes(id) ON DELETE CASCADE,
     score INTEGER NOT NULL,
     total_questions INTEGER NOT NULL,
+    time_expired BOOLEAN DEFAULT FALSE, -- Whether the quiz was submitted due to time expiration
     completed_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );

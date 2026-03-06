@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { updateSession } from '@/lib/auth';
+import { updateSession, decrypt } from '@/lib/auth';
 
 export async function middleware(request: NextRequest) {
-    const session = request.cookies.get('session')?.value;
+    const sessionCookie = request.cookies.get('session')?.value;
     const { pathname } = request.nextUrl;
 
     // Define route patterns
@@ -13,13 +13,48 @@ export async function middleware(request: NextRequest) {
         pathname.startsWith('/results') ||
         pathname.startsWith('/admin');
 
+    // Validate session if it exists - clear invalid/expired tokens
+    let hasValidSession = false;
+    if (sessionCookie) {
+        try {
+            const session = await decrypt(sessionCookie);
+            hasValidSession = !!session;
+            
+            // If session is invalid/expired, clear the cookie
+            if (!session) {
+                const response = NextResponse.next();
+                response.cookies.set('session', '', { expires: new Date(0), httpOnly: true });
+                
+                // If on protected page, redirect to login
+                if (isProtectedPage) {
+                    return NextResponse.redirect(new URL('/login', request.url));
+                }
+                
+                return response;
+            }
+        } catch (error) {
+            // On any error, treat as invalid session
+            console.warn('Middleware: session validation failed');
+            hasValidSession = false;
+            
+            const response = NextResponse.next();
+            response.cookies.set('session', '', { expires: new Date(0), httpOnly: true });
+            
+            if (isProtectedPage) {
+                return NextResponse.redirect(new URL('/login', request.url));
+            }
+            
+            return response;
+        }
+    }
+
     // 1. Redirect unauthenticated users from protected pages
-    if (isProtectedPage && !session) {
+    if (isProtectedPage && !hasValidSession) {
         return NextResponse.redirect(new URL('/login', request.url));
     }
 
     // 2. Redirect authenticated users away from auth pages
-    if (isAuthPage && session) {
+    if (isAuthPage && hasValidSession) {
         return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 

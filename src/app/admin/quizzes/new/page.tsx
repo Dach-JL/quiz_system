@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ChevronLeft, Plus, Trash2, Save, Loader2, BookOpen, AlertCircle } from "lucide-react";
+import { ChevronLeft, Plus, Trash2, Save, Loader2, BookOpen, AlertCircle, Clock } from "lucide-react";
 
 export default function NewQuizPage() {
     const router = useRouter();
@@ -14,7 +14,8 @@ export default function NewQuizPage() {
         title: "",
         description: "",
         category: "",
-        difficulty: "Beginner"
+        difficulty: "Beginner",
+        time_limit: "10" // Default 10 minutes
     });
 
     const [questions, setQuestions] = useState([
@@ -156,6 +157,27 @@ export default function NewQuizPage() {
                                 <option value="Intermediate">Intermediate</option>
                                 <option value="Advanced">Advanced</option>
                             </select>
+                        </div>
+
+                        <div className="space-y-3">
+                            <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2 flex items-center gap-2">
+                                <Clock className="h-4 w-4" />
+                                Time Limit (minutes)
+                            </label>
+                            <input
+                                required
+                                type="number"
+                                name="time_limit"
+                                min="1"
+                                max="180"
+                                value={quizData.time_limit}
+                                onChange={handleQuizChange}
+                                placeholder="e.g., 15"
+                                className="w-full bg-slate-50 dark:bg-slate-800/50 border-2 border-transparent focus:border-indigo-600 outline-none p-5 rounded-2xl text-slate-900 dark:text-white font-bold transition-all"
+                            />
+                            <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.15em] ml-2">
+                                Quiz will auto-submit when time expires
+                            </p>
                         </div>
                     </div>
 

@@ -13,9 +13,10 @@ export default function QuizPage() {
     const [questions, setQuestions] = useState<any[]>([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState<Record<number, string>>({});
-    const [timeLeft, setTimeLeft] = useState(600); // 10 minutes default
+    const [timeLeft, setTimeLeft] = useState<number | null>(null); // Will be set from quiz.time_limit
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [timeExpired, setTimeExpired] = useState(false);
 
     const fetchQuizData = useCallback(async () => {
         try {
@@ -24,6 +25,8 @@ export default function QuizPage() {
             const data = await res.json();
             setQuiz(data.quiz);
             setQuestions(data.questions);
+            // Set time limit from database (in seconds), default to 10 minutes if not set
+            setTimeLeft(data.quiz.time_limit || 600);
             setLoading(false);
         } catch (error) {
             console.error(error);
@@ -36,12 +39,13 @@ export default function QuizPage() {
     }, [fetchQuizData]);
 
     useEffect(() => {
-        if (loading || isSubmitting) return;
+        if (loading || isSubmitting || timeLeft === null || timeLeft <= 0) return;
 
         const timer = setInterval(() => {
             setTimeLeft((prev) => {
-                if (prev <= 1) {
+                if (prev === null || prev <= 1) {
                     clearInterval(timer);
+                    setTimeExpired(true);
                     handleSubmit();
                     return 0;
                 }
@@ -50,7 +54,7 @@ export default function QuizPage() {
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [loading, isSubmitting]);
+    }, [loading, isSubmitting, timeLeft]);
 
     const handleAnswerSelect = (option: string) => {
         setAnswers((prev) => ({
@@ -69,6 +73,7 @@ export default function QuizPage() {
                 body: JSON.stringify({
                     quizId,
                     answers,
+                    timeExpired: timeExpired,
                 }),
             });
 
@@ -85,7 +90,7 @@ export default function QuizPage() {
         }
     };
 
-    if (loading) {
+    if (loading || timeLeft === null) {
         return (
             <div className="flex min-h-screen items-center justify-center bg-white dark:bg-slate-950">
                 <div className="text-center">
@@ -106,6 +111,17 @@ export default function QuizPage() {
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-12 pb-24 px-4 sm:px-6 lg:px-8 transition-colors duration-500">
             <div className="mx-auto max-w-4xl">
+                {/* Time Expired Banner */}
+                {timeExpired && (
+                    <div className="mb-8 bg-rose-50 dark:bg-rose-500/10 border-2 border-rose-200 dark:border-rose-500/20 p-6 rounded-3xl flex items-center gap-4 text-rose-600 dark:text-rose-400 animate-pulse">
+                        <Clock className="h-8 w-8 flex-shrink-0" />
+                        <div>
+                            <p className="text-lg font-black uppercase tracking-tight">Time's Up!</p>
+                            <p className="text-sm font-bold">Submitting your answers automatically...</p>
+                        </div>
+                    </div>
+                )}
+
                 {/* Header Card */}
                 <div className="mb-12 flex flex-col sm:flex-row items-center justify-between bg-white dark:bg-slate-900 p-10 rounded-[3rem] shadow-2xl border border-slate-100 dark:border-slate-800 gap-8">
                     <div className="flex items-center gap-6">

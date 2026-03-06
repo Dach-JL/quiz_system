@@ -3,7 +3,7 @@
 import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ChevronLeft, Plus, Trash2, Save, Loader2, BookOpen, AlertCircle, RefreshCw } from "lucide-react";
+import { ChevronLeft, Plus, Trash2, Save, Loader2, BookOpen, AlertCircle, RefreshCw, Clock } from "lucide-react";
 
 interface Question {
     id?: number;
@@ -18,6 +18,7 @@ interface QuizData {
     description: string;
     category: string;
     difficulty: string;
+    time_limit?: number; // Time limit in minutes
 }
 
 export default function EditQuizPage({ params }: { params: Promise<{ id: string }> }) {
@@ -31,7 +32,8 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
         title: "",
         description: "",
         category: "",
-        difficulty: "Beginner"
+        difficulty: "Beginner",
+        time_limit: 10
     });
 
     const [questions, setQuestions] = useState<Question[]>([]);
@@ -46,7 +48,8 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
                         title: data.quiz.title,
                         description: data.quiz.description,
                         category: data.quiz.category,
-                        difficulty: data.quiz.difficulty
+                        difficulty: data.quiz.difficulty,
+                        time_limit: data.quiz.time_limit ? Math.floor(data.quiz.time_limit / 60) : 10 // Convert seconds to minutes
                     });
                     setQuestions(data.questions);
                 } else {
@@ -205,6 +208,26 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
                                 <option value="Intermediate">Level: Intermediate</option>
                                 <option value="Advanced">Level: Advanced</option>
                             </select>
+                        </div>
+
+                        <div className="space-y-3">
+                            <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2 flex items-center gap-2">
+                                <Clock className="h-4 w-4" />
+                                Time Limit (minutes)
+                            </label>
+                            <input
+                                required
+                                type="number"
+                                name="time_limit"
+                                min="1"
+                                max="180"
+                                value={quizData.time_limit}
+                                onChange={handleQuizChange}
+                                className="w-full bg-slate-50 dark:bg-slate-800/50 border-2 border-transparent focus:border-indigo-600 outline-none p-5 rounded-2xl text-slate-900 dark:text-white font-bold transition-all"
+                            />
+                            <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.15em] ml-2">
+                                Quiz will auto-submit when time expires
+                            </p>
                         </div>
                     </div>
 

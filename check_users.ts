@@ -1,4 +1,4 @@
-import sql from "./src/lib/db.ts";
+import sql from "./src/lib/db";
 
 async function checkUsers() {
     try {
@@ -6,7 +6,7 @@ async function checkUsers() {
         console.log("Users in database:");
         console.table(users);
     } catch (error) {
-        console.error("Error checking users:", error);
+        console.error("Error checking users:", error instanceof Error ? error.message : error);
     }
     process.exit(0);
 }

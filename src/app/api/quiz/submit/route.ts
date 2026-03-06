@@ -9,12 +9,12 @@ export async function POST(request: Request) {
         // Given Phase 2 is done, we should expect a session or at least a logged in user
         const userId = session?.user?.id || 1; // Fallback to user 1 for dev if needed
 
-        const { quizId, answers } = await request.json();
+        const { quizId, answers, timeExpired } = await request.json();
 
         // Fetch correct answers for this quiz
         const questions = await sql`
-            SELECT id, correct_answer 
-            FROM questions 
+            SELECT id, correct_answer
+            FROM questions
             WHERE quiz_id = ${quizId}
         `;
 
@@ -27,14 +27,19 @@ export async function POST(request: Request) {
 
         const totalQuestions = questions.length;
 
-        // Store result in DB
+        // Store result in DB with time_expired flag
         const [result] = await sql`
-            INSERT INTO results (user_id, quiz_id, score, total_questions)
-            VALUES (${userId}, ${quizId}, ${score}, ${totalQuestions})
+            INSERT INTO results (user_id, quiz_id, score, total_questions, time_expired)
+            VALUES (${userId}, ${quizId}, ${score}, ${totalQuestions}, ${!!timeExpired})
             RETURNING id as "resultId"
         `;
 
-        return NextResponse.json({ resultId: result.resultId, score, totalQuestions });
+        return NextResponse.json({ 
+            resultId: result.resultId, 
+            score, 
+            totalQuestions,
+            timeExpired: !!timeExpired 
+        });
     } catch (error) {
         console.error('Failed to submit quiz:', error);
         return NextResponse.json({ error: 'Failed to submit quiz' }, { status: 500 });
